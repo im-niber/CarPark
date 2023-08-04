@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B0EFB49303BE4CE90804A1B /* Pods_CarPark.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6141D3647C40C18A20E4BA25 /* Pods_CarPark.framework */; };
 		6E1241B32A050C7D003247DD /* ParkMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1241B22A050C7D003247DD /* ParkMarker.swift */; };
+		6E569EA72A7A50C800E3E557 /* CarParkInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E569EA62A7A50C800E3E557 /* CarParkInfoViewModel.swift */; };
 		6E64D0652A1491770076C61E /* ViewController+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0642A1491770076C61E /* ViewController+SearchBarDelegate.swift */; };
 		6E64D0692A149B8B0076C61E /* SearchResultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0682A149B8B0076C61E /* SearchResultHeaderView.swift */; };
 		6E64D06B2A149CE40076C61E /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D06A2A149CE40076C61E /* NSObject+.swift */; };
@@ -55,6 +56,7 @@
 		0C67B7B6106A8A6AE7673630 /* Pods-CarPark.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarPark.release.xcconfig"; path = "Target Support Files/Pods-CarPark/Pods-CarPark.release.xcconfig"; sourceTree = "<group>"; };
 		6141D3647C40C18A20E4BA25 /* Pods_CarPark.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarPark.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E1241B22A050C7D003247DD /* ParkMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkMarker.swift; sourceTree = "<group>"; };
+		6E569EA62A7A50C800E3E557 /* CarParkInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarParkInfoViewModel.swift; sourceTree = "<group>"; };
 		6E64D0642A1491770076C61E /* ViewController+SearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+SearchBarDelegate.swift"; sourceTree = "<group>"; };
 		6E64D0682A149B8B0076C61E /* SearchResultHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultHeaderView.swift; sourceTree = "<group>"; };
 		6E64D06A2A149CE40076C61E /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				6E64D0D22A29FE720076C61E /* Main */,
 				6E66C4CA2A03955B007C4482 /* CarParkInfoViewController.swift */,
+				6E569EA62A7A50C800E3E557 /* CarParkInfoViewModel.swift */,
 				6E64D0AC2A1E48600076C61E /* FavoriteParkViewController.swift */,
 				6E64D0DA2A2F50490076C61E /* FirstViewController.swift */,
 				6EA7BE5329BB5AA00046BDCC /* SearchResultViewController.swift */,
@@ -385,6 +388,7 @@
 				6EA7BE4029BB24A30046BDCC /* AppDelegate.swift in Sources */,
 				6E64D0752A1763960076C61E /* ViewController+CameraDelegate.swift in Sources */,
 				6E64D0BF2A2495C20076C61E /* NetworkResult.swift in Sources */,
+				6E569EA72A7A50C800E3E557 /* CarParkInfoViewModel.swift in Sources */,
 				6E64D0CB2A28AB2E0076C61E /* LoginViewController.swift in Sources */,
 				6EA7BE5429BB5AA00046BDCC /* SearchResultViewController.swift in Sources */,
 				6E64D0B72A20AE440076C61E /* ParkReview.swift in Sources */,
