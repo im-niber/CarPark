@@ -1,18 +1,7 @@
 import UIKit
-
-protocol DrivingDelegate: AnyObject {
-    func getDriving(goalLng: String, goalLat: String, goalLocation: String, marker: ParkMarker)
-}
+import Combine
 
 final class CarParkInfoViewController: UIViewController {
-    
-    private var reviews: [ParkReview]?
-    private let marker: ParkMarker
-    
-    weak var delegate: DrivingDelegate?
-    
-    private var isKeyboardShowing = false
-    
     @IBOutlet weak var pkNamLabel: UILabel!
     @IBOutlet weak var favoriteBtn: UIButton!
     
@@ -50,19 +39,24 @@ final class CarParkInfoViewController: UIViewController {
     @IBOutlet weak var reviewTextField: UITextField!
     @IBOutlet weak var postReviewBtn: UIButton!
     
+    
+    private(set) var viewModel: CarParkInfoViewModel
+    private var cancellables: Set<AnyCancellable> = []
+    
+    private var isKeyboardShowing = false
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        
         tableView.isHidden = true
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView.dataSource = viewModel
+        tableView.delegate = viewModel
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
     }()
     
-    init?(marker: ParkMarker, coder: NSCoder) {
-        self.marker = marker
+    init?(viewModel: CarParkInfoViewModel, coder: NSCoder) {
+        self.viewModel = viewModel
         super.init(coder: coder)
     }
     
@@ -74,11 +68,19 @@ final class CarParkInfoViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
         reviewTextField.delegate = self
-        fetchReview()
         setUpTableView()
-        setData(with: marker.data)
+        bindViewModel()
+        setData(with: viewModel.marker.data)
         checkFavorite()
         addKeyboardNotification()
+    }
+    
+    private func bindViewModel() {
+        viewModel.$reviews.sink { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }.store(in: &cancellables)
     }
 
     private func setUpTableView() {
@@ -107,48 +109,23 @@ final class CarParkInfoViewController: UIViewController {
     }
     
     private func checkFavorite() {
-        favoriteBtn.isSelected = UserDefault.shared.checkFavorite(with: self.marker.data)
+        favoriteBtn.isSelected = viewModel.checkFavorite()
     }
     
     @IBAction func tappedFavoriteAction(_ sender: Any) {
-        UserDefault.shared.setFavoriteParks(item: self.marker.data)
+        viewModel.tappedFavoriteAction()
         checkFavorite()
     }
     
-    // MARK: 서버에서 리뷰를 가져오는 함수
-    private func fetchReview() {
-        let urlParkName = marker.data.pkNam.components(separatedBy: " ").joined()
-        let encodeURL = (APIConstants.fetchReviewURL + urlParkName).encodeUrl()!
-
-        NetworkManager.shared.fetch(with: encodeURL, type: ParkReviewStatus.self) { reviewData in
-            self.reviews = reviewData.reviews
-
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
     // MARK: 리뷰 작성 로직
     @IBAction func postReview(_ sender: Any) {
-        let parameter: [String : Any] = [
-            "user_Name" : UserDefault.shared.getNickname(),
-            "review" : reviewTextField.text!,
-            "park_Name" : marker.data.pkNam
-        ]
-        
-        NetworkManager.shared.push(with: APIConstants.saveReviewURL, parameter: parameter) { result in
-            guard result == .success else {
-                print("review error")
-                return
-            }
-            self.fetchReview()
-        }
+        self.viewModel.postReview(with: reviewTextField.text!)
         reviewTextField.text = ""
     }
     
     // MARK: 길찾기
     @IBAction func findWayAction(_ sender: Any) {
-        delegate?.getDriving(goalLng: marker.data.xCdnt, goalLat: marker.data.yCdnt, goalLocation: marker.data.pkNam, marker: marker)
+        self.viewModel.getDriving()
         self.dismiss(animated: true)
     }
     
@@ -209,23 +186,6 @@ final class CarParkInfoViewController: UIViewController {
         }
     }
 }
-
-extension CarParkInfoViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        reviews?.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ParkReviewCell.identifier, for: indexPath) as? ParkReviewCell else { return UITableViewCell() }
-        guard let reviews else { return UITableViewCell() }
-        let review = reviews[indexPath.row]
-        cell.configure(with: review)
-        
-        return cell
-    }
-}
-
-extension CarParkInfoViewController: UITableViewDelegate { }
 
 extension CarParkInfoViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

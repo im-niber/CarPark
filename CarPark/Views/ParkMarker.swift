@@ -42,13 +42,13 @@ final class ParkMarker: NMFMarker {
             if self.drivingMarker { return false }
             
             let sheetVC: CarParkInfoViewController = UIStoryboard(name: "CarParkInfoView", bundle: nil).instantiateViewController(identifier: "CarParkInfoView") { coder in
-                let vc = CarParkInfoViewController(marker: self, coder: coder)
+                let vc = CarParkInfoViewController(viewModel: CarParkInfoViewModel(marker: self), coder: coder)
                 return vc
             }
             if let presentationSheetVC = sheetVC.presentationController as? UISheetPresentationController {
                 presentationSheetVC.detents = [.medium(), .large()]
                 presentationSheetVC.prefersGrabberVisible = true
-                sheetVC.delegate = vc
+                sheetVC.viewModel.delegate = vc
                 self.vc?.present(sheetVC, animated: true)
             }
             

@@ -53,14 +53,14 @@ final class ParkTitleCell: UITableViewCell {
                 guard let marker = ParkDB.shared.allMarkers.filter({ $0.data.pkNam == item.pkNam }).first else { return }
                 
                 let sheetVC: CarParkInfoViewController = UIStoryboard(name: "CarParkInfoView", bundle: nil).instantiateViewController(identifier: "CarParkInfoView") { coder in
-                    let vc = CarParkInfoViewController(marker: marker, coder: coder)
+                    let vc = CarParkInfoViewController(viewModel: CarParkInfoViewModel(marker: marker), coder: coder)
                     return vc
                 }
                 
                 if let presentationSheetVC = sheetVC.presentationController as? UISheetPresentationController {
                     presentationSheetVC.detents = [.medium(), .large()]
                     presentationSheetVC.prefersGrabberVisible = true
-                    sheetVC.delegate = vc
+                    sheetVC.viewModel.delegate = vc
                     vc.NM.mapView.becomeFirstResponder()
                     vc.present(sheetVC, animated: true)
                 }
