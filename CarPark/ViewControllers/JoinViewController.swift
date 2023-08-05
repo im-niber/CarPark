@@ -1,24 +1,19 @@
 import UIKit
 
-final class JoinViewController: UIViewController {
+final class JoinViewController: BaseViewController {
     
-    private var verifyID = false {
-        didSet { checkJoinBtn() }
-    }
-    
-    private var verifyNickname = false {
-        didSet { checkJoinBtn() }
-    }
-    
-    private var verifyEmail = false {
-        didSet { checkJoinBtn() }
-    }
-    
-    private var verifyPassword = false {
-        didSet { checkJoinBtn() }
-    }
+    private let viewModel: JoinViewModel
     
     var textFieldBottom: CGFloat = 0.0
+    
+    init(viewModel: JoinViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -63,11 +58,8 @@ final class JoinViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         self.hideKeyboardWhenTappedAround()
         setDefaultComponent()
-        configureHierarchy()
-        configureConstraints()
         configure()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -97,7 +89,13 @@ final class JoinViewController: UIViewController {
         }
     }
     
-    private func configureHierarchy() {
+    override func bind() {
+        viewModel.$verifys.sink { [weak self] verifys in
+            self?.checkJoinBtn(verifys: verifys)
+        }.store(in: &cancellable)
+    }
+    
+    override func configureHierarchy() {
         view.addSubview(mainStackView)
         view.addSubview(joinButton)
         
@@ -106,7 +104,7 @@ final class JoinViewController: UIViewController {
         }
     }
     
-    private func configureConstraints() {
+    override func configureConstraints() {
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
             mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
@@ -165,8 +163,8 @@ final class JoinViewController: UIViewController {
 }
 
 extension JoinViewController {
-    private func checkJoinBtn() {
-        if self.verifyEmail && self.verifyPassword && verifyNickname && verifyID {
+    private func checkJoinBtn(verifys: JoinViewModel.VerifyTuple) {
+        if viewModel.checkJoinBtn(with: verifys) {
             joinButton.isSelected = true
         }
         else { joinButton.isSelected = false }
@@ -174,23 +172,7 @@ extension JoinViewController {
     
     @objc func joinAction() {
         if joinButton.isSelected {
-            UserDefault.shared.setLogin(id: idTextField.text!, nickname: nicknameTextField.text!)
-            
-            let parameter: [String : Any] = [
-                "user_ID" : idTextField.text ?? "",
-                "user_PW" : passwordTextField2.text ?? "",
-                "user_Email" : emailTextField.text ?? "",
-                "user_Name" : nicknameTextField.text ?? ""
-            ]
-            
-            NetworkManager.shared.push(with: APIConstants.joinURL, parameter: parameter) { result in
-                
-                if result != .success {
-                    UserDefault.shared.setLogout()
-                    print("회원가입 오류")
-                }
-            }
-            
+            viewModel.joinAction(id: idTextField.text, pw: passwordTextField2.text, email: emailTextField.text, nickname: nicknameTextField.text)
             self.dismiss(animated: true)
         }
     }
@@ -203,40 +185,27 @@ extension JoinViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == idTextField {
-            if textField.text != "" {
-                verifyID = true
-            }
-            else { verifyID = false }
+            viewModel.checkid(textField.text != "")
         }
         
         if textField == nicknameTextField {
-            if textField.text != "" {
-                verifyNickname = true
-            }
-            else { verifyNickname = false }
+            viewModel.checkNickname(textField.text != "")
         }
         
         if textField == emailTextField {
             let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-            if NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: textField.text) {
-                verifyEmail = true
+            
+            if viewModel.checkEmail(NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: textField.text)) {
                 emailCheckLabel.isHidden = true
             }
-            else {
-                verifyEmail = false
-                emailCheckLabel.isHidden = false
-            }
+            else { emailCheckLabel.isHidden = false }
         }
         
         if textField == passwordTextField2 {
-            if textField.text != passwordTextField.text {
-                checkPasswordLabel.isHidden = false
-                verifyPassword = false
-            }
-            else {
-                verifyPassword = true
+            if viewModel.checkPassword(textField.text == passwordTextField.text) {
                 checkPasswordLabel.isHidden = true
             }
+            else { checkPasswordLabel.isHidden = false }
         }
     }
     

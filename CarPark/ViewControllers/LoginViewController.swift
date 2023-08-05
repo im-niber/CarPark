@@ -34,7 +34,7 @@ final class LoginViewController: UIViewController {
     }
     
     @IBAction func buttonAction(_ sender: Any) {
-        let vc = JoinViewController()
+        let vc = JoinViewController(viewModel: JoinViewModel())
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
