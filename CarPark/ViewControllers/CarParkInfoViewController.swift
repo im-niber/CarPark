@@ -1,7 +1,7 @@
 import UIKit
 import Combine
 
-final class CarParkInfoViewController: UIViewController {
+final class CarParkInfoViewController: BaseViewController {
     @IBOutlet weak var pkNamLabel: UILabel!
     @IBOutlet weak var favoriteBtn: UIButton!
     
@@ -39,9 +39,7 @@ final class CarParkInfoViewController: UIViewController {
     @IBOutlet weak var reviewTextField: UITextField!
     @IBOutlet weak var postReviewBtn: UIButton!
     
-    
     private(set) var viewModel: CarParkInfoViewModel
-    private var cancellables: Set<AnyCancellable> = []
     
     private var isKeyboardShowing = false
     
@@ -54,13 +52,13 @@ final class CarParkInfoViewController: UIViewController {
         
         return tableView
     }()
-    
+
     init?(viewModel: CarParkInfoViewModel, coder: NSCoder) {
         self.viewModel = viewModel
         super.init(coder: coder)
     }
     
-    required init?(coder: NSCoder) {
+    required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -69,18 +67,18 @@ final class CarParkInfoViewController: UIViewController {
         self.hideKeyboardWhenTappedAround()
         reviewTextField.delegate = self
         setUpTableView()
-        bindViewModel()
+        bind()
         setData(with: viewModel.marker.data)
         checkFavorite()
         addKeyboardNotification()
     }
     
-    private func bindViewModel() {
+    override func bind() {
         viewModel.$reviews.sink { [weak self] _ in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
-        }.store(in: &cancellables)
+        }.store(in: &cancellable)
     }
 
     private func setUpTableView() {
