@@ -164,10 +164,7 @@ final class JoinViewController: BaseViewController {
 
 extension JoinViewController {
     private func checkJoinBtn(verifys: JoinViewModel.VerifyTuple) {
-        if viewModel.checkJoinBtn(with: verifys) {
-            joinButton.isSelected = true
-        }
-        else { joinButton.isSelected = false }
+        joinButton.isSelected = viewModel.checkJoinBtn(with: verifys)
     }
     
     @objc func joinAction() {
