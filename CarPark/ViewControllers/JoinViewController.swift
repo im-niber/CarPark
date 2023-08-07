@@ -90,9 +90,36 @@ final class JoinViewController: BaseViewController {
     }
     
     override func bind() {
-        viewModel.$verifys.sink { [weak self] verifys in
-            self?.checkJoinBtn(verifys: verifys)
-        }.store(in: &cancellable)
+        let input = JoinViewModel.Input(
+            id: idTextField.textPublisher.eraseToAnyPublisher(),
+            nickName: nicknameTextField.textPublisher.eraseToAnyPublisher(),
+            email: emailTextField.textPublisher.eraseToAnyPublisher(),
+            password: passwordTextField.textPublisher.eraseToAnyPublisher(),
+            password2: passwordTextField2.textPublisher.eraseToAnyPublisher()
+        )
+
+        let output = viewModel.transform(input: input)
+        
+        output
+            .emailIsValid
+            .sink { [weak self] state in
+                self?.emailCheckLabel.isHidden = state
+            }
+            .store(in: &cancellable)
+        
+        output
+            .passwrodIsValid
+            .sink { [weak self] state in
+                self?.checkPasswordLabel.isHidden = state
+            }
+            .store(in: &cancellable)
+        
+        output
+           .buttonIsValid
+           .sink(receiveValue: { [weak self] state in
+               self?.joinButton.isSelected = state
+           })
+           .store(in: &cancellable)
     }
     
     override func configureHierarchy() {
@@ -163,10 +190,6 @@ final class JoinViewController: BaseViewController {
 }
 
 extension JoinViewController {
-    private func checkJoinBtn(verifys: JoinViewModel.VerifyTuple) {
-        joinButton.isSelected = viewModel.checkJoinBtn(with: verifys)
-    }
-    
     @objc func joinAction() {
         if joinButton.isSelected {
             viewModel.joinAction(id: idTextField.text, pw: passwordTextField2.text, email: emailTextField.text, nickname: nicknameTextField.text)
@@ -178,32 +201,6 @@ extension JoinViewController {
 extension JoinViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textFieldBottom = textField.frame.origin.y + textField.frame.height
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == idTextField {
-            viewModel.checkid(textField.text != "")
-        }
-        
-        if textField == nicknameTextField {
-            viewModel.checkNickname(textField.text != "")
-        }
-        
-        if textField == emailTextField {
-            let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-            
-            if viewModel.checkEmail(NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: textField.text)) {
-                emailCheckLabel.isHidden = true
-            }
-            else { emailCheckLabel.isHidden = false }
-        }
-        
-        if textField == passwordTextField2 {
-            if viewModel.checkPassword(textField.text == passwordTextField.text) {
-                checkPasswordLabel.isHidden = true
-            }
-            else { checkPasswordLabel.isHidden = false }
-        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

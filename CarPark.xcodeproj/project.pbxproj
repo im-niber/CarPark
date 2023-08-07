@@ -52,6 +52,8 @@
 		6EB3B89F2A02380B0084F927 /* Park.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3B89E2A02380B0084F927 /* Park.swift */; };
 		6EDE887A2A7E5ECF00E18808 /* JoinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDE88792A7E5ECF00E18808 /* JoinViewModel.swift */; };
 		6EDE887F2A7E5F9200E18808 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDE887E2A7E5F9200E18808 /* BaseViewController.swift */; };
+		6EDE88852A80DB9600E18808 /* Publisher+UIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDE88842A80DB9600E18808 /* Publisher+UIComponents.swift */; };
+		6EDE88872A80E01600E18808 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDE88862A80E01600E18808 /* ViewModelType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,6 +105,8 @@
 		6EB3B89E2A02380B0084F927 /* Park.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Park.swift; sourceTree = "<group>"; };
 		6EDE88792A7E5ECF00E18808 /* JoinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewModel.swift; sourceTree = "<group>"; };
 		6EDE887E2A7E5F9200E18808 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		6EDE88842A80DB9600E18808 /* Publisher+UIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+UIComponents.swift"; sourceTree = "<group>"; };
+		6EDE88862A80E01600E18808 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		BF2F755975BD6FF83E1AA140 /* Pods-CarPark.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarPark.debug.xcconfig"; path = "Target Support Files/Pods-CarPark/Pods-CarPark.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +147,7 @@
 				6E64D0BA2A233A0F0076C61E /* Date+.swift */,
 				6E64D0D82A2CB0D60076C61E /* String+.swift */,
 				6E64D0CE2A29EC780076C61E /* UIViewController+.swift */,
+				6EDE88842A80DB9600E18808 /* Publisher+UIComponents.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -265,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				6EDE887E2A7E5F9200E18808 /* BaseViewController.swift */,
+				6EDE88862A80E01600E18808 /* ViewModelType.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -403,7 +409,9 @@
 				6E66C4CB2A03955B007C4482 /* CarParkInfoViewController.swift in Sources */,
 				6EB3B89A2A00FB370084F927 /* PartnerPark.swift in Sources */,
 				6E64D0A92A1DC1D40076C61E /* CustomInfoWindowDataSource.swift in Sources */,
+				6EDE88852A80DB9600E18808 /* Publisher+UIComponents.swift in Sources */,
 				6E64D06D2A1658490076C61E /* UserDefault.swift in Sources */,
+				6EDE88872A80E01600E18808 /* ViewModelType.swift in Sources */,
 				6E64D0712A1739100076C61E /* ParkDB.swift in Sources */,
 				6EA7BE5629BB5AC90046BDCC /* ParkTitleCell.swift in Sources */,
 				6EB3B89F2A02380B0084F927 /* Park.swift in Sources */,
