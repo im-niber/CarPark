@@ -50,7 +50,6 @@ final class JoinViewController: BaseViewController {
         button.setTitleColor(.white, for: .selected)
         button.setTitleColor(.gray, for: .normal)
         button.tintColor = .black
-        button.addTarget(self, action: #selector(joinAction), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
@@ -100,6 +99,12 @@ final class JoinViewController: BaseViewController {
 
         let output = viewModel.transform(input: input)
         
+        joinButton.tapPublisher.sink { [weak self] state in
+            guard let self else { return }
+            if joinButton.isSelected { self.viewModel.joinAction(id: idTextField.text!, pw: passwordTextField2.text!, email: emailTextField.text!, nickname: nicknameTextField.text!) }
+        }
+        .store(in: &cancellable)
+        
         output
             .emailIsValid
             .sink { [weak self] state in
@@ -120,6 +125,17 @@ final class JoinViewController: BaseViewController {
                self?.joinButton.isSelected = state
            })
            .store(in: &cancellable)
+        
+        output
+            .networkState
+            .sink(receiveValue: { [weak self] state in
+                if state {
+                    DispatchQueue.main.async {
+                        self?.dismiss(animated: true)
+                    }
+                }
+            })
+            .store(in: &cancellable)
     }
     
     override func configureHierarchy() {
@@ -187,15 +203,6 @@ final class JoinViewController: BaseViewController {
            self.view.frame.origin.y = 0
        }
    }
-}
-
-extension JoinViewController {
-    @objc func joinAction() {
-        if joinButton.isSelected {
-            viewModel.joinAction(id: idTextField.text, pw: passwordTextField2.text, email: emailTextField.text, nickname: nicknameTextField.text)
-            self.dismiss(animated: true)
-        }
-    }
 }
 
 extension JoinViewController: UITextFieldDelegate {

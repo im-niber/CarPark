@@ -47,6 +47,7 @@ final class NetworkManager {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let _ = response as? HTTPURLResponse else {
                 print("\(String(describing: response))")
+                completionHandler(.networkFail)
                 return
             }
             do {
@@ -60,6 +61,7 @@ final class NetworkManager {
             }
             catch {
                 print("data error")
+                completionHandler(.networkFail)
             }
         }
         task.resume()
