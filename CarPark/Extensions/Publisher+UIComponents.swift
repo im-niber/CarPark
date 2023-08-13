@@ -56,6 +56,12 @@ extension UITextField {
             .map { $0.text! }
             .eraseToAnyPublisher()
     }
+    
+    var returnPublisher: AnyPublisher<Void, Never> {
+        controlPublisher(for: .editingDidEndOnExit)
+            .map { _ in }
+            .eraseToAnyPublisher()
+      }
 }
 
 extension UIButton {

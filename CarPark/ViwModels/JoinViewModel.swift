@@ -14,27 +14,35 @@ final class JoinViewModel: ViewModelType {
         let emailIsValid: AnyPublisher<Bool, Never>
         let passwrodIsValid: AnyPublisher<Bool, Never>
         let buttonIsValid: AnyPublisher<Bool, Never>
+        let networkState: CurrentValueSubject<Bool, Never>
     }
+    
+    var networkState = CurrentValueSubject<Bool, Never>(false)
     
     func transform(input: Input) -> Output {
         let emailStatePublisher = input.email
-            .map { self.checkEmail($0) }
+            .map { [weak self] in
+                guard let self else { return false }
+                return self.checkEmail($0) }
             .eraseToAnyPublisher()
         
         let passwordStatePublisher = input.password.combineLatest(input.password2)
-            .map { self.checkPassword($0, $1) }
+            .map { [weak self] in
+                guard let self else { return false }
+                return self.checkPassword($0, $1) }
             .eraseToAnyPublisher()
         
-        let textCount = input.id.combineLatest(input.nickName, input.email)
+        let idNicknameEmail = input.id.combineLatest(input.nickName, input.email)
         let passwordCheck = input.password.combineLatest(input.password2)
         
-        let buttonStatePublisher = textCount.combineLatest(passwordCheck)
-            .map { idNicknameEmail, password in
-                idNicknameEmail.0.count > 0 && idNicknameEmail.1.count > 0 && self.checkEmail(idNicknameEmail.2) && self.checkPassword(password.0, password.1)
+        let buttonStatePublisher = idNicknameEmail.combineLatest(passwordCheck)
+            .map { [weak self] idNicknameEmail, password in
+                guard let self else { return false }
+                return idNicknameEmail.0.count > 0 && idNicknameEmail.1.count > 0 && self.checkEmail(idNicknameEmail.2) && self.checkPassword(password.0, password.1)
             }
             .eraseToAnyPublisher()
-    
-        return Output(emailIsValid: emailStatePublisher, passwrodIsValid: passwordStatePublisher, buttonIsValid: buttonStatePublisher)
+        
+        return Output(emailIsValid: emailStatePublisher, passwrodIsValid: passwordStatePublisher, buttonIsValid: buttonStatePublisher, networkState: networkState)
     }
     
     func checkEmail(_ str: String) -> Bool {
@@ -47,7 +55,7 @@ final class JoinViewModel: ViewModelType {
     }
     
     func joinAction(id: String?, pw: String?, email: String?, nickname: String?) {
-        guard let id = id, let pw = pw, let email = email, let nickname = nickname else { return }
+        guard let id, let pw, let email, let nickname else { return }
         UserDefault.shared.setLogin(id: id, nickname: nickname)
         
         let parameter: [String : Any] = [
@@ -58,11 +66,13 @@ final class JoinViewModel: ViewModelType {
         ]
         
         NetworkManager.shared.push(with: APIConstants.joinURL, parameter: parameter) { result in
-            
             if result != .success {
                 UserDefault.shared.setLogout()
+                self.networkState.send(false)
                 print("회원가입 오류")
+                return
             }
+            self.networkState.send(true)
         }
         
     }
