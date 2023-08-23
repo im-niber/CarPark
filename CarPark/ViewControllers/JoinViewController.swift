@@ -121,20 +121,18 @@ final class JoinViewController: BaseViewController {
         
         output
            .buttonIsValid
-           .sink(receiveValue: { [weak self] state in
+           .sink { [weak self] state in
                self?.joinButton.isSelected = state
-           })
+           }
            .store(in: &cancellable)
         
         output
             .networkState
-            .sink(receiveValue: { [weak self] state in
-                if state {
-                    DispatchQueue.main.async {
-                        self?.dismiss(animated: true)
-                    }
-                }
-            })
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                state ? self?.dismiss(animated: true) : ()
+//                if state { self?.dismiss(animated: true) }
+            }
             .store(in: &cancellable)
     }
     

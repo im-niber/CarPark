@@ -17,6 +17,7 @@ final class JoinViewModel: ViewModelType {
         let networkState: CurrentValueSubject<Bool, Never>
     }
     
+    var cancellable: Set<AnyCancellable> = []
     var networkState = CurrentValueSubject<Bool, Never>(false)
     
     func transform(input: Input) -> Output {
@@ -65,15 +66,16 @@ final class JoinViewModel: ViewModelType {
             "user_Name" : nickname
         ]
         
-        NetworkManager.shared.push(with: APIConstants.joinURL, parameter: parameter) { result in
-            if result != .success {
+        NetworkManager.shared.request(with: APIConstants.joinURL, method: .post, parameter: parameter) { result in
+            switch result {
+            case .success(_):
+                self.networkState.send(true)
+            case .failure(_):
                 UserDefault.shared.setLogout()
                 self.networkState.send(false)
                 print("회원가입 오류")
                 return
             }
-            self.networkState.send(true)
         }
-        
     }
 }

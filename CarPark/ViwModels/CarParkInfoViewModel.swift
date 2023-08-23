@@ -48,12 +48,13 @@ final class CarParkInfoViewModel: NSObject, ObservableObject {
             "park_Name" : self.marker.data.pkNam
         ]
 
-        NetworkManager.shared.push(with: APIConstants.saveReviewURL, parameter: parameter) { result in
-            guard result == .success else {
-                print("review error")
-                return
+        NetworkManager.shared.request(with: APIConstants.saveReviewURL, method: .post, parameter: parameter) { result in
+            switch result {
+            case .success(_):
+                self.fetchReview()
+            case .failure(let error):
+                print("\(error)")
             }
-            self.fetchReview()
         }
     }
     
@@ -61,9 +62,14 @@ final class CarParkInfoViewModel: NSObject, ObservableObject {
     private func fetchReview() {
         let urlParkName = marker.data.pkNam.components(separatedBy: " ").joined()
         let encodeURL = (APIConstants.fetchReviewURL + urlParkName).encodeUrl()!
-
-        NetworkManager.shared.fetch(with: encodeURL, type: ParkReviewStatus.self) { reviewData in
-            self.reviews = reviewData.reviews
+        
+        NetworkManager.shared.request(with: encodeURL, method: .get, type: ParkReviewStatus.self) { result in
+            switch result {
+            case .success(let data):
+                self.reviews = data.reviews
+            case .failure(let error):
+                print("\(error)")
+            }
         }
     }
 }

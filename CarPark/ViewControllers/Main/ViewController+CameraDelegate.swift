@@ -102,8 +102,13 @@ extension ViewController: NMFMapViewCameraDelegate {
     }
     
     func fetchPartnerParks(completionHandler: @escaping ([PartnerPark]) -> Void) {
-        NetworkManager.shared.fetch(with: APIConstants.partnerParkURL, type: Array<PartnerPark>.self) { data in
-            completionHandler(data)
+        NetworkManager.shared.request(with: APIConstants.partnerParkURL, method: .get, type: Array<PartnerPark>.self) { result in
+            switch result {
+            case .success(let data):
+                completionHandler(data)
+            case .failure(let error):
+                print("\(error)")
+            }
         }
     }
 }
