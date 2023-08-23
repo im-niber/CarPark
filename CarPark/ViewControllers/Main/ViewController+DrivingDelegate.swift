@@ -15,23 +15,29 @@ extension ViewController: DrivingDelegate {
             "X-NCP-APIGW-API-KEY" : Secret.clientSecret
         ]
       
-        NetworkManager.shared.fetch(session: URLSession(configuration: configuraiton), with: APIConstants.wayURL(start: "\(startLng),\(startLat)", goal: "\(goalLng),\(goalLat)").wayURL, type: Root.self) { [weak self] data in
-            guard let data = data.route.first?.value.first else { return }
-            
-            self?.pathOverlay.path = NMGLineString(points: data.path.map { route in
-                NMGLatLng(lat: route[1], lng: route[0])
-            })
+        NetworkManager.shared.request(with: APIConstants.wayURL(start: "\(startLng),\(startLat)", goal: "\(goalLng),\(goalLat)").wayURL, method: .get, type: Root.self) { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let data = data.route.first?.value.first else { return }
 
-            DispatchQueue.main.async {
-                self?.pathOverlay.mapView = self?.NM.mapView
-                self?.drivingView.isHidden = false
-                marker.drivingMarker = true
-                self?.drivingView.configure(to: goalLocation, time: data.summary.duration, marker: marker)
-                
-                let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: self?.locationManager.location?.coordinate.latitude ?? 0, lng: self?.locationManager.location?.coordinate.longitude ?? 0))
-                cameraUpdate.animation = .easeIn
-              
-                self?.NM.mapView.moveCamera(cameraUpdate)
+                self?.pathOverlay.path = NMGLineString(points: data.path.map { route in
+                    NMGLatLng(lat: route[1], lng: route[0])
+                })
+
+                DispatchQueue.main.async {
+                    self?.pathOverlay.mapView = self?.NM.mapView
+                    self?.drivingView.isHidden = false
+                    marker.drivingMarker = true
+                    self?.drivingView.configure(to: goalLocation, time: data.summary.duration, marker: marker)
+
+                    let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: self?.locationManager.location?.coordinate.latitude ?? 0, lng: self?.locationManager.location?.coordinate.longitude ?? 0))
+                    cameraUpdate.animation = .easeIn
+
+                    self?.NM.mapView.moveCamera(cameraUpdate)
+                }
+            case .failure(let error):
+                print("\(error)")
+                return
             }
         }
     }

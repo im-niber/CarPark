@@ -70,12 +70,11 @@ final class LoginViewController: UIViewController {
                 "user_PW" : passwordTextField.text!
             ]
             
-            NetworkManager.shared.push(with: APIConstants.loginURL, parameter: parameter) { result in
+            NetworkManager.shared.request(with: APIConstants.loginURL, method: .post, parameter: parameter) { result in
                 // MARK: 로그인 성공
-                if result == .success {
-                    print("success")
+                switch result {
+                case .success(_):
                     DispatchQueue.main.async {
-                        print("success23")
                         UserDefault.shared.setLogin(id: self.idTextField.text ?? "", nickname: UserDefault.shared.getNickname())
                         self.navigationController?.popViewController(animated: true)
                         self.navigationController?.popViewController(animated: true)
@@ -83,9 +82,8 @@ final class LoginViewController: UIViewController {
                         self.navigationController?.pushViewController(ViewController(), animated: false)
                         
                     }
-                }
-                // MARK: 로그인 실패
-                else {
+                case .failure(let error):
+                    print(error)
                     DispatchQueue.global().async {
                         let alertVC = UIAlertController(title: nil, message: "아이디 또는 비밀번호를 확인 해주세요", preferredStyle: .alert)
                         let yesAction = UIAlertAction(title: "확인", style: .default, handler: nil)

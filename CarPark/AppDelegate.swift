@@ -21,15 +21,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func fetchPartnerParks() {
-        NetworkManager.shared.fetch(with: APIConstants.partnerParkURL, type: Array<PartnerPark>.self) { data in
-            data.forEach { park in
-                let item = park.toParkItem()
-                ParkDB.shared.partnerParks.append(item)
-                ParkDB.shared.partnerMarkers.append(ParkMarker(data: item))
-            }
-            
-            DispatchQueue.main.async {
-                ParkDB.shared.allMarkers += ParkDB.shared.partnerMarkers
+        NetworkManager.shared.request(with: APIConstants.partnerParkURL, method: .get, type: Array<PartnerPark>.self) { result in
+            switch result {
+            case .success(let data):
+                data.forEach { park in
+                    let item = park.toParkItem()
+                    ParkDB.shared.partnerParks.append(item)
+                    ParkDB.shared.partnerMarkers.append(ParkMarker(data: item))
+                }
+                
+                DispatchQueue.main.async {
+                    ParkDB.shared.allMarkers += ParkDB.shared.partnerMarkers
+                }
+            case .failure(let error):
+                print("\(error)")
             }
         }
     }
@@ -42,16 +47,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         
-        NetworkManager.shared.fetch(with: APIConstants.pubilcParkURL, type: Park.self) { data in
-            let parkData = data.getPblcPrkngInfo.body.items.item
-            ParkDB.shared.createTable()
-
-            parkData.forEach { item in
-                ParkDB.shared.markers.append(ParkMarker(data: item))
-                ParkDB.shared.insertData(item: item)
-            }
-            DispatchQueue.main.async {
-                ParkDB.shared.allMarkers += ParkDB.shared.markers
+        NetworkManager.shared.request(with: APIConstants.pubilcParkURL, method: .get, type: Park.self) { result in
+            switch result {
+            case .success(let data):
+                let parkData = data.getPblcPrkngInfo.body.items.item
+                ParkDB.shared.createTable()
+    
+                parkData.forEach { item in
+                    ParkDB.shared.markers.append(ParkMarker(data: item))
+                    ParkDB.shared.insertData(item: item)
+                }
+                DispatchQueue.main.async {
+                    ParkDB.shared.allMarkers += ParkDB.shared.markers
+                }
+            case .failure(let error):
+                print("\(error)")
             }
         }
     }
