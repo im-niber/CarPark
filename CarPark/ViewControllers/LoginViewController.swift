@@ -19,7 +19,7 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
         setDelegate()
         self.hideKeyboardWhenTappedAround()
-//        checkLogin()
+        checkLogin()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,10 +40,11 @@ final class LoginViewController: UIViewController {
     }
     
     private func checkLogin() {
-        if UserDefault.shared.checkLoggedIn() {
+// 로그인 skip
+//        if UserDefault.shared.checkLoggedIn() {
             self.navigationController?.popToRootViewController(animated: true)
             self.navigationController?.pushViewController(ViewController(), animated: false)
-        }
+//        }
     }
     
     private func checkLoginBtn() {
