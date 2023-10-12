@@ -123,7 +123,7 @@ final class ParkDB {
             sqlite3_bind_text(statement, 31, NSString(string: item.payMtd).utf8String, -1, nil)
             sqlite3_bind_text(statement, 32, NSString(string: item.spclNote).utf8String, -1, nil)
             sqlite3_bind_text(statement, 33, NSString(string: item.currava).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 34, NSString(string: item.oprtFm ?? "").utf8String, -1, nil)
+            sqlite3_bind_text(statement, 34, NSString(string: item.oprtFm).utf8String, -1, nil)
         }
         else {
             print("sqlite binding failure")

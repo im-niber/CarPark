@@ -102,6 +102,20 @@ final class ViewController: UIViewController {
         return view
     }()
     
+    private lazy var myMenuBtn: UIButton = {
+        let view = UIButton()
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .semibold)
+        let image = UIImage(systemName: "line.3.horizontal", withConfiguration: imageConfig)
+        
+        view.addTarget(self, action: #selector(showMyMenuVC), for: .touchUpInside)
+           
+        view.setImage(image, for: .normal)
+        view.tintColor = .darkGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     private(set) lazy var drivingView: DrivingView = {
         let view = DrivingView()
         view.delegate = self
@@ -138,13 +152,19 @@ final class ViewController: UIViewController {
         self.NM.addSubview(searchResultViewController.view)
         self.NM.addSubview(favoriteParksViewController.view)
         self.NM.addSubview(drivingView)
+        self.NM.addSubview(myMenuBtn)
         
         bottomSheetViewTopConstraint = self.favoriteParksViewController.view.topAnchor.constraint(equalTo: self.view.centerYAnchor)
         
         NSLayoutConstraint.activate([
-            self.containerSearchBarView.topAnchor.constraint(equalTo: view.topAnchor, constant: 44),
+            self.myMenuBtn.centerYAnchor.constraint(equalTo: containerSearchBarView.centerYAnchor),
+            self.myMenuBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+        ])
+        
+        NSLayoutConstraint.activate([
+            self.containerSearchBarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             self.containerSearchBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            self.containerSearchBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
+            self.containerSearchBarView.trailingAnchor.constraint(equalTo: myMenuBtn.leadingAnchor, constant: -8)
         ])
         
         NSLayoutConstraint.activate([
@@ -188,6 +208,13 @@ extension ViewController {
         self.favoriteParksViewController.hiddenViewCheck()
         
         self.favoriteParksViewController.view.isHidden.toggle()
+    }
+    
+    @objc func showMyMenuVC() {
+        self.navigationItem.backButtonTitle = "뒤로 가기"
+        self.navigationController?.navigationBar.tintColor = .black
+        let vc = MyMenuViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
