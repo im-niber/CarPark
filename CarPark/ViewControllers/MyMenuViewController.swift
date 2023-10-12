@@ -2,35 +2,53 @@ import UIKit
 
 final class MyMenuViewController: BaseViewController {
     
-    private lazy var usageRecordTitle: UIButton = {
-        let view = UIButton()
-        view.setTitle("이용 기록", for: .normal)
-        view.tintColor = .black
-        view.titleLabel?.font = .systemFont(ofSize: 22, weight: .semibold)
+    private lazy var menuStackView: UIStackView = {
+        let view = UIStackView()
+        view.backgroundColor = .white
+        view.axis = .vertical
+        view.alignment = .leading
+        view.distribution = .fill
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
+    
+    private lazy var usageRecordTitle: MenuButton = {
+        let view = MenuButton()
+        view.setTitle("이용 기록", for: .normal)
+        view.addTarget(self, action: #selector(showRecordVC), for: .touchUpInside)
+        
+        return view
+    }()
 
-    override func configureHierarchy() {
-        self.view.addSubview(usageRecordTitle)
-    }
+    private lazy var myInfoBtn: MenuButton = {
+        let view = MenuButton()
+        view.setTitle("정보 수정", for: .normal)
+        view.addTarget(self, action: #selector(editMyInfo), for: .touchUpInside)
+        
+        return view
+    }()
     
     override func configureConstraints() {
+        self.view.addSubview(menuStackView)
+        menuStackView.addArrangedSubview(usageRecordTitle)
+        menuStackView.addArrangedSubview(DividerView())
+        menuStackView.addArrangedSubview(myInfoBtn)
+        
         NSLayoutConstraint.activate([
-            usageRecordTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            usageRecordTitle.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            menuStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 28),
+            menuStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            menuStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "마이페이지"
         self.navigationItem.titleView?.tintColor = .black
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = false
     }
     
@@ -39,4 +57,14 @@ final class MyMenuViewController: BaseViewController {
         navigationController?.isNavigationBarHidden = true
     }
 
+}
+
+extension MyMenuViewController {
+    @objc func showRecordVC() {
+        navigationController?.pushViewController(UsageRecordViewController(), animated: true)
+    }
+    
+    @objc func editMyInfo() {
+        print("edit")
+    }
 }
