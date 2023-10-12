@@ -60,6 +60,8 @@
 		6EEA120E2AD6BD1800C57E9A /* MyMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA120D2AD6BD1800C57E9A /* MyMenuViewController.swift */; };
 		6EEA12102AD6D5A700C57E9A /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA120F2AD6D5A700C57E9A /* DividerView.swift */; };
 		6EEA12122AD6D5C600C57E9A /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA12112AD6D5C600C57E9A /* MenuButton.swift */; };
+		6EEA12142AD6DFA700C57E9A /* RecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA12132AD6DFA700C57E9A /* RecordCell.swift */; };
+		6EEA12162AD6E04600C57E9A /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA12152AD6E04600C57E9A /* Record.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +121,8 @@
 		6EEA120D2AD6BD1800C57E9A /* MyMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMenuViewController.swift; sourceTree = "<group>"; };
 		6EEA120F2AD6D5A700C57E9A /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
 		6EEA12112AD6D5C600C57E9A /* MenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
+		6EEA12132AD6DFA700C57E9A /* RecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCell.swift; sourceTree = "<group>"; };
+		6EEA12152AD6E04600C57E9A /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		BF2F755975BD6FF83E1AA140 /* Pods-CarPark.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarPark.debug.xcconfig"; path = "Target Support Files/Pods-CarPark/Pods-CarPark.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -269,6 +273,7 @@
 				6E64D0C02A2495FC0076C61E /* APIConstants.swift */,
 				6E64D0C42A25EB370076C61E /* Root.swift */,
 				6E7567F62A94B1F500CD0E35 /* HTTPMethod.swift */,
+				6EEA12152AD6E04600C57E9A /* Record.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				6E64D0B42A20AD940076C61E /* ParkReviewCell.swift */,
+				6EEA12132AD6DFA700C57E9A /* RecordCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -419,6 +425,7 @@
 			files = (
 				6E64D0B92A20AF0D0076C61E /* NetworkManager.swift in Sources */,
 				6E64D0BD2A2494630076C61E /* Secret.swift in Sources */,
+				6EEA12162AD6E04600C57E9A /* Record.swift in Sources */,
 				6EDE887F2A7E5F9200E18808 /* BaseViewController.swift in Sources */,
 				6E64D0732A175F7A0076C61E /* CLLocationCoordinate2D+.swift in Sources */,
 				6E64D0AD2A1E48600076C61E /* FavoriteParkViewController.swift in Sources */,
@@ -434,6 +441,7 @@
 				6E64D0C72A260D750076C61E /* ViewController+DrivingDelegate.swift in Sources */,
 				6EA7BE4429BB24A30046BDCC /* ViewController.swift in Sources */,
 				6E66C4CB2A03955B007C4482 /* CarParkInfoViewController.swift in Sources */,
+				6EEA12142AD6DFA700C57E9A /* RecordCell.swift in Sources */,
 				6EB3B89A2A00FB370084F927 /* PartnerPark.swift in Sources */,
 				6E64D0A92A1DC1D40076C61E /* CustomInfoWindowDataSource.swift in Sources */,
 				6E7567F72A94B1F500CD0E35 /* HTTPMethod.swift in Sources */,

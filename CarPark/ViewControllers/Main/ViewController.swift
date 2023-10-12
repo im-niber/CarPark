@@ -104,13 +104,13 @@ final class ViewController: UIViewController {
     
     private lazy var myMenuBtn: UIButton = {
         let view = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 34, weight: .bold)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .semibold)
         let image = UIImage(systemName: "line.3.horizontal", withConfiguration: imageConfig)
         
         view.addTarget(self, action: #selector(showMyMenuVC), for: .touchUpInside)
            
         view.setImage(image, for: .normal)
-        view.tintColor = .black
+        view.tintColor = .darkGray
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -162,7 +162,7 @@ final class ViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            self.containerSearchBarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            self.containerSearchBarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             self.containerSearchBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             self.containerSearchBarView.trailingAnchor.constraint(equalTo: myMenuBtn.leadingAnchor, constant: -8)
         ])
