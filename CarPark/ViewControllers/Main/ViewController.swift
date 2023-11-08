@@ -207,9 +207,8 @@ final class ViewController: UIViewController {
 extension ViewController {
     @objc func showFavoriteVC() {
         self.favoriteParksViewController.parks = UserDefault.shared.favoriteParks?.data ?? []
-        favoriteParksViewController.tableView.reloadData()
+        favoriteParksViewController.reloadParkData()
         self.favoriteParksViewController.hiddenViewCheck()
-        
         self.favoriteParksViewController.view.isHidden.toggle()
     }
     

@@ -6,71 +6,45 @@ final class FavoriteParkViewController: UIViewController {
     
     private lazy var bottomSheetPanStartingTopConstant: CGFloat = 0
     
-    private(set) lazy var notFavoriteParkView: UILabel = {
-        let label = UILabel()
-        label.text = "즐겨찾기한 주차장이 없습니다."
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.textColor = .gray
-        label.isHidden = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private(set) lazy var tableView: UITableView = {
-        let vc = UITableView()
+    private lazy var favoritePakrView: FavoriteParkView = {
+        let view = FavoriteParkView(frame: .zero)
+        view.tableView.delegate = self
+        view.tableView.dataSource = self
+        view.translatesAutoresizingMaskIntoConstraints = false
         
-        vc.delegate = self
-        vc.dataSource = self
-        vc.translatesAutoresizingMaskIntoConstraints = false
-        
-        return vc
+        return view
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
         layout()
-        setUpTableView()
         configureGesture()
     }
     
     private func layout() {
-        view.addSubview(notFavoriteParkView)
-        
+        view.addSubview(favoritePakrView)
         NSLayoutConstraint.activate([
-            notFavoriteParkView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            notFavoriteParkView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            favoritePakrView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            favoritePakrView.topAnchor.constraint(equalTo: view.topAnchor),
+            favoritePakrView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            favoritePakrView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
-    private func setUpTableView() {
-        view.addSubview(tableView)
-        
-        tableView.layer.cornerRadius = 20
-        tableView.separatorStyle = .none
-        tableView.sectionHeaderTopPadding = 10.0
-        tableView.sectionHeaderHeight = 35
-        
-        tableView.register(ParkTitleCell.self, forCellReuseIdentifier: ParkTitleCell.identifier)
-        tableView.register(FavoriteParksHeaderView.self, forHeaderFooterViewReuseIdentifier: FavoriteParksHeaderView.identifier)
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
+    func reloadParkData() {
+        self.favoritePakrView.tableView.reloadData()
     }
-
+    
     func hiddenViewCheck() {
         if parks.count == 0 {
-            notFavoriteParkView.isHidden = false
-            tableView.isHidden = true
+            favoritePakrView.notFavoriteParkView.isHidden = false
+            favoritePakrView.tableView.isHidden = true
         }
         else {
-            notFavoriteParkView.isHidden = true
-            tableView.isHidden = false
+            favoritePakrView.notFavoriteParkView.isHidden = true
+            favoritePakrView.tableView.isHidden = false
         }
     }
 }
@@ -111,9 +85,9 @@ extension FavoriteParkViewController: UITableViewDelegate {
 extension FavoriteParkViewController: FavoriteParksHeaderViewDelegate {
     func didTapAllDelete() {
         UserDefault.shared.allDeleteFavoriteParks()
-        tableView.reloadData()
-        notFavoriteParkView.isHidden = false
-        tableView.isHidden = true
+        favoritePakrView.tableView.reloadData()
+        favoritePakrView.notFavoriteParkView.isHidden = false
+        favoritePakrView.tableView.isHidden = true
     }
 }
 
