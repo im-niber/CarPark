@@ -206,13 +206,15 @@ final class ViewController: UIViewController {
 
 extension ViewController {
     @objc func showFavoriteVC() {
-        self.favoriteParksViewController.parks = UserDefault.shared.favoriteParks?.data ?? []
-        favoriteParksViewController.reloadParkData()
+        self.favoriteParksViewController.setFavoritePark()
+        self.favoriteParksViewController.reloadParkData()
         self.favoriteParksViewController.hiddenViewCheck()
         self.favoriteParksViewController.view.isHidden.toggle()
     }
     
     @objc func showFilterVC() {
+        self.favoriteParksViewController.showFilterView()
+        self.favoriteParksViewController.setDistancePark()
         self.favoriteParksViewController.view.isHidden.toggle()
     }
     
