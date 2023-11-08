@@ -1,6 +1,6 @@
 import UIKit
 
-final class FavoriteParkViewController: UIViewController {
+final class FavoriteParkViewController: BaseViewController {
 
     private var parks: [Item] = []
     private var isShowFavorite = true
@@ -134,13 +134,25 @@ extension FavoriteParkViewController: UITableViewDelegate {
 
 extension FavoriteParkViewController: FilterParkHeaderViewDelegate {
     func setDistancePark() {
-        parks = []
-        tableView.reloadData()
+        ParkDB.shared.$isShowParks
+            .buffer(size: 10, prefetch: .byRequest, whenFull: .dropNewest)
+            .sink { [weak self] newParks in
+                self?.parks = newParks.map { $0.data }
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellable)
     }
     
     func setMoneyPark() {
-        parks = []
-        tableView.reloadData()
+        ParkDB.shared.$isShowParks
+            .buffer(size: 10, prefetch: .byRequest, whenFull: .dropNewest)
+            .sink { [weak self] newParks in
+                self?.parks = newParks.sorted { lhs, rhs in
+                    Int(lhs.data.tenMin) ?? 0 < Int(rhs.data.tenMin) ?? 0
+                }.map { $0.data }
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellable)
     }
 }
 

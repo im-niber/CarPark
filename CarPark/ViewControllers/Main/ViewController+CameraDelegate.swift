@@ -13,7 +13,6 @@ extension ViewController: NMFMapViewCameraDelegate {
             }
             return
         }
-        
         let markers = ParkDB.shared.markers
         var partenerMarkers: [ParkMarker] = []
         
@@ -21,6 +20,8 @@ extension ViewController: NMFMapViewCameraDelegate {
         
         let startCoord = projection.latlng(from: CGPoint(x: 0, y: 0))
         let endCoord = projection.latlng(from: CGPoint(x: UIScreen.main.bounds.width, y: UIScreen.main.bounds.height))
+        
+        ParkDB.shared.resetShowingParks()
         
         // allmarkers로 나중에 수정
         allMarkers.forEach { item in
@@ -58,6 +59,7 @@ extension ViewController: NMFMapViewCameraDelegate {
                 
                 else {
                     item.hidden = false
+                    
                     if item.data.emptySpace == nil {
                         item.infoWindow?.close()
                     }
@@ -68,6 +70,12 @@ extension ViewController: NMFMapViewCameraDelegate {
                 item.hidden = true
             }
         }
+        let current = CLLocationCoordinate2D(latitude: self.locationManager.location?.coordinate.latitude ?? -1, longitude: self.locationManager.location?.coordinate.longitude ?? -1)
+        
+        ParkDB.shared.setShowingParks(parkMarker: allMarkers.filter { $0.hidden == false }.sorted(by: { lhs, rhs in
+            current.distance(from: CLLocationCoordinate2D(latitude: Double(lhs.data.yCdnt) ?? -1, longitude: Double(lhs.data.xCdnt) ?? -1)) < current.distance(from: CLLocationCoordinate2D(latitude: Double(rhs.data.yCdnt) ?? -1, longitude: Double(rhs.data.xCdnt) ?? -1))
+            
+        }))
 //
 //        fetchPartnerParks { data in
 //            data.forEach { item in
