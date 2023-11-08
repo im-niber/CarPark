@@ -1,9 +1,10 @@
 import UIKit
 
-final class FavoriteParkViewController: BaseViewController {
+final class BottomSheetParksViewController: BaseViewController {
 
     private var parks: [Item] = []
     private var isShowFavorite = true
+    private var filterState: FilterParkHeaderView.State = .distance
     
     private lazy var bottomSheetPanStartingTopConstant: CGFloat = 0
     
@@ -16,8 +17,8 @@ final class FavoriteParkViewController: BaseViewController {
         return view
     }()
     
-    private lazy var favoritePakrView: FavoriteParkView = {
-        let view = FavoriteParkView(frame: .zero)
+    private lazy var nothingView: NothingParkView = {
+        let view = NothingParkView(frame: .zero)
         view.isHidden = true
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -34,12 +35,12 @@ final class FavoriteParkViewController: BaseViewController {
     }
     
     private func layout() {
-        view.addSubview(favoritePakrView)
+        view.addSubview(nothingView)
         NSLayoutConstraint.activate([
-            favoritePakrView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            favoritePakrView.topAnchor.constraint(equalTo: view.topAnchor),
-            favoritePakrView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            favoritePakrView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            nothingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            nothingView.topAnchor.constraint(equalTo: view.topAnchor),
+            nothingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            nothingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -63,14 +64,18 @@ final class FavoriteParkViewController: BaseViewController {
         ])
     }
     
-    func setFavoritePark() {
+    func showFavoritePark() {
+        self.nothingView.setTitle(msg: "즐겨찾기한 주차장이 없습니다.")
         self.parks = UserDefault.shared.favoriteParks?.data ?? []
+        self.isShowFavorite = true
     }
     
     func showFilterView() {
-        isShowFavorite = false
-        tableView.isHidden = false
-        favoritePakrView.isHidden = true
+        self.nothingView.setTitle(msg: "주변 주차장이 없습니다.")
+        self.isShowFavorite = false
+        self.setFilterParks(state: filterState)
+        self.tableView.isHidden = false
+        self.nothingView.isHidden = true
     }
     
     func reloadParkData() {
@@ -78,19 +83,18 @@ final class FavoriteParkViewController: BaseViewController {
     }
     
     func hiddenViewCheck() {
-        isShowFavorite = true
         if parks.count == 0 {
-            favoritePakrView.isHidden = false
+            nothingView.isHidden = false
             tableView.isHidden = true
         }
         else {
-            favoritePakrView.isHidden = true
+            nothingView.isHidden = true
             tableView.isHidden = false
         }
     }
 }
 
-extension FavoriteParkViewController: UITableViewDataSource {
+extension BottomSheetParksViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         parks.count
     }
@@ -124,7 +128,7 @@ extension FavoriteParkViewController: UITableViewDataSource {
     }
 }
 
-extension FavoriteParkViewController: UITableViewDelegate {
+extension BottomSheetParksViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.dismiss(animated: true)
         guard let cell = tableView.cellForRow(at: indexPath) as? ParkTitleCell else { return }
@@ -132,8 +136,21 @@ extension FavoriteParkViewController: UITableViewDelegate {
     }
 }
 
-extension FavoriteParkViewController: FilterParkHeaderViewDelegate {
-    func setDistancePark() {
+extension BottomSheetParksViewController: FilterParkHeaderViewDelegate {
+    
+    func setFilterParks(state: FilterParkHeaderView.State) {
+        switch state {
+        case .distance:
+            filterState = .distance
+            setDistancePark()
+        case .money:
+            filterState = .money
+            setMoneyPark()
+        }
+    }
+    
+    private func setDistancePark() {
+        tableView.reloadData()
         ParkDB.shared.$isShowParks
             .buffer(size: 10, prefetch: .byRequest, whenFull: .dropNewest)
             .sink { [weak self] newParks in
@@ -143,7 +160,8 @@ extension FavoriteParkViewController: FilterParkHeaderViewDelegate {
             .store(in: &cancellable)
     }
     
-    func setMoneyPark() {
+    private func setMoneyPark() {
+        tableView.reloadData()
         ParkDB.shared.$isShowParks
             .buffer(size: 10, prefetch: .byRequest, whenFull: .dropNewest)
             .sink { [weak self] newParks in
@@ -156,16 +174,16 @@ extension FavoriteParkViewController: FilterParkHeaderViewDelegate {
     }
 }
 
-extension FavoriteParkViewController: FavoriteParksHeaderViewDelegate {
+extension BottomSheetParksViewController: FavoriteParksHeaderViewDelegate {
     func didTapAllDelete() {
         UserDefault.shared.allDeleteFavoriteParks()
         tableView.reloadData()
-        favoritePakrView.isHidden = false
+        nothingView.isHidden = false
         tableView.isHidden = true
     }
 }
 
-extension FavoriteParkViewController {
+extension BottomSheetParksViewController {
     private func configureGesture() {
         let viewPan = UIPanGestureRecognizer(target: self, action: #selector(viewPanned(_:)))
         viewPan.delaysTouchesBegan = false

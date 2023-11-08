@@ -1,11 +1,15 @@
 import UIKit
 
 protocol FilterParkHeaderViewDelegate: AnyObject {
-    func setDistancePark()
-    func setMoneyPark()
+    func setFilterParks(state: FilterParkHeaderView.State)
 }
 
 final class FilterParkHeaderView: UITableViewHeaderFooterView {
+    
+    enum State {
+        case distance, money
+    }
+    
     weak var delegate: FilterParkHeaderViewDelegate?
     
     private lazy var titleLabel: UIButton = {
@@ -60,11 +64,12 @@ final class FilterParkHeaderView: UITableViewHeaderFooterView {
     @objc func distancePark() {
         titleLabel.isSelected = true
         titleLabel2.isSelected = false
-        delegate?.setDistancePark()
+        delegate?.setFilterParks(state: .distance)
+
     }
     @objc func moneyPark() {
         titleLabel.isSelected = false
         titleLabel2.isSelected = true
-        delegate?.setMoneyPark()
+        delegate?.setFilterParks(state: .money)
     }
 }

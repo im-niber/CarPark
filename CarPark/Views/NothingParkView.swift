@@ -1,10 +1,12 @@
 import UIKit
 
-final class FavoriteParkView: UIView {
+final class NothingParkView: UIView {
+    
+    private var title: String?
 
     private(set) lazy var notFavoriteParkView: UILabel = {
         let label = UILabel()
-        label.text = "즐겨찾기한 주차장이 없습니다."
+        label.text = title
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -18,6 +20,10 @@ final class FavoriteParkView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setTitle(msg: String) {
+        notFavoriteParkView.text = msg
     }
     
     private func setUpView() {

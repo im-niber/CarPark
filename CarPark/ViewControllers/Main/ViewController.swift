@@ -31,8 +31,8 @@ final class ViewController: UIViewController {
         return vc
     }()
     
-    private(set) lazy var favoriteParksViewController: FavoriteParkViewController = {
-        let vc = FavoriteParkViewController()
+    private(set) lazy var favoriteParksViewController: BottomSheetParksViewController = {
+        let vc = BottomSheetParksViewController()
         vc.view.isHidden = true
         vc.view.translatesAutoresizingMaskIntoConstraints = false
         return vc
@@ -206,7 +206,7 @@ final class ViewController: UIViewController {
 
 extension ViewController {
     @objc func showFavoriteVC() {
-        self.favoriteParksViewController.setFavoritePark()
+        self.favoriteParksViewController.showFavoritePark()
         self.favoriteParksViewController.reloadParkData()
         self.favoriteParksViewController.hiddenViewCheck()
         self.favoriteParksViewController.view.isHidden.toggle()
@@ -214,7 +214,7 @@ extension ViewController {
     
     @objc func showFilterVC() {
         self.favoriteParksViewController.showFilterView()
-        self.favoriteParksViewController.setDistancePark()
+        self.favoriteParksViewController.hiddenViewCheck()
         self.favoriteParksViewController.view.isHidden.toggle()
     }
     

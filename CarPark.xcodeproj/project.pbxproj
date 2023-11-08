@@ -20,7 +20,7 @@
 		6E64D0752A1763960076C61E /* ViewController+CameraDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0742A1763960076C61E /* ViewController+CameraDelegate.swift */; };
 		6E64D0A92A1DC1D40076C61E /* CustomInfoWindowDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0A82A1DC1D40076C61E /* CustomInfoWindowDataSource.swift */; };
 		6E64D0AB2A1DE7F90076C61E /* ViewController+CLLocationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0AA2A1DE7F90076C61E /* ViewController+CLLocationDelegate.swift */; };
-		6E64D0AD2A1E48600076C61E /* FavoriteParkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0AC2A1E48600076C61E /* FavoriteParkViewController.swift */; };
+		6E64D0AD2A1E48600076C61E /* BottomSheetParksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0AC2A1E48600076C61E /* BottomSheetParksViewController.swift */; };
 		6E64D0AF2A1F77950076C61E /* FavoriteParksHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0AE2A1F77950076C61E /* FavoriteParksHeaderView.swift */; };
 		6E64D0B32A2077780076C61E /* CustomInfoWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0B22A2077780076C61E /* CustomInfoWindowView.swift */; };
 		6E64D0B52A20AD940076C61E /* ParkReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0B42A20AD940076C61E /* ParkReviewCell.swift */; };
@@ -44,7 +44,7 @@
 		6E7567FD2A95DDDE00CD0E35 /* HTTPStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7567FC2A95DDDE00CD0E35 /* HTTPStatusCode.swift */; };
 		6E9420052AD6B79C00AF725A /* UsageRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9420042AD6B79C00AF725A /* UsageRecordViewController.swift */; };
 		6E9DD99A2AFB3BE900042FF6 /* BottomSheetBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9DD9992AFB3BE900042FF6 /* BottomSheetBtn.swift */; };
-		6E9DD99C2AFB421700042FF6 /* FavoriteParkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9DD99B2AFB421700042FF6 /* FavoriteParkView.swift */; };
+		6E9DD99C2AFB421700042FF6 /* NothingParkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9DD99B2AFB421700042FF6 /* NothingParkView.swift */; };
 		6E9DD99E2AFB479C00042FF6 /* FilterParkHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9DD99D2AFB479C00042FF6 /* FilterParkHeaderView.swift */; };
 		6EA7BE4029BB24A30046BDCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA7BE3F29BB24A30046BDCC /* AppDelegate.swift */; };
 		6EA7BE4229BB24A30046BDCC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA7BE4129BB24A30046BDCC /* SceneDelegate.swift */; };
@@ -82,7 +82,7 @@
 		6E64D0742A1763960076C61E /* ViewController+CameraDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+CameraDelegate.swift"; sourceTree = "<group>"; };
 		6E64D0A82A1DC1D40076C61E /* CustomInfoWindowDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInfoWindowDataSource.swift; sourceTree = "<group>"; };
 		6E64D0AA2A1DE7F90076C61E /* ViewController+CLLocationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+CLLocationDelegate.swift"; sourceTree = "<group>"; };
-		6E64D0AC2A1E48600076C61E /* FavoriteParkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteParkViewController.swift; sourceTree = "<group>"; };
+		6E64D0AC2A1E48600076C61E /* BottomSheetParksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetParksViewController.swift; sourceTree = "<group>"; };
 		6E64D0AE2A1F77950076C61E /* FavoriteParksHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteParksHeaderView.swift; sourceTree = "<group>"; };
 		6E64D0B22A2077780076C61E /* CustomInfoWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInfoWindowView.swift; sourceTree = "<group>"; };
 		6E64D0B42A20AD940076C61E /* ParkReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkReviewCell.swift; sourceTree = "<group>"; };
@@ -106,7 +106,7 @@
 		6E7567FC2A95DDDE00CD0E35 /* HTTPStatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPStatusCode.swift; sourceTree = "<group>"; };
 		6E9420042AD6B79C00AF725A /* UsageRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageRecordViewController.swift; sourceTree = "<group>"; };
 		6E9DD9992AFB3BE900042FF6 /* BottomSheetBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetBtn.swift; sourceTree = "<group>"; };
-		6E9DD99B2AFB421700042FF6 /* FavoriteParkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteParkView.swift; sourceTree = "<group>"; };
+		6E9DD99B2AFB421700042FF6 /* NothingParkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingParkView.swift; sourceTree = "<group>"; };
 		6E9DD99D2AFB479C00042FF6 /* FilterParkHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterParkHeaderView.swift; sourceTree = "<group>"; };
 		6EA7BE3C29BB24A30046BDCC /* CarPark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarPark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EA7BE3F29BB24A30046BDCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 			children = (
 				6E64D0D22A29FE720076C61E /* Main */,
 				6E66C4CA2A03955B007C4482 /* CarParkInfoViewController.swift */,
-				6E64D0AC2A1E48600076C61E /* FavoriteParkViewController.swift */,
+				6E64D0AC2A1E48600076C61E /* BottomSheetParksViewController.swift */,
 				6E64D0DA2A2F50490076C61E /* FirstViewController.swift */,
 				6EA7BE5329BB5AA00046BDCC /* SearchResultViewController.swift */,
 				6E64D0CA2A28AB2E0076C61E /* LoginViewController.swift */,
@@ -207,7 +207,7 @@
 			children = (
 				6EEA120C2AD6BC6D00C57E9A /* Cells */,
 				6E1241B22A050C7D003247DD /* ParkMarker.swift */,
-				6E9DD99B2AFB421700042FF6 /* FavoriteParkView.swift */,
+				6E9DD99B2AFB421700042FF6 /* NothingParkView.swift */,
 				6E64D0C82A2625990076C61E /* DrivingView.swift */,
 				6E64D0A82A1DC1D40076C61E /* CustomInfoWindowDataSource.swift */,
 				6E64D0B22A2077780076C61E /* CustomInfoWindowView.swift */,
@@ -438,12 +438,12 @@
 				6EDE887F2A7E5F9200E18808 /* BaseViewController.swift in Sources */,
 				6E64D0732A175F7A0076C61E /* CLLocationCoordinate2D+.swift in Sources */,
 				6E9DD99E2AFB479C00042FF6 /* FilterParkHeaderView.swift in Sources */,
-				6E64D0AD2A1E48600076C61E /* FavoriteParkViewController.swift in Sources */,
+				6E64D0AD2A1E48600076C61E /* BottomSheetParksViewController.swift in Sources */,
 				6EEA120E2AD6BD1800C57E9A /* MyMenuViewController.swift in Sources */,
 				6E64D06F2A166DE30076C61E /* Constant.swift in Sources */,
 				6E9DD99A2AFB3BE900042FF6 /* BottomSheetBtn.swift in Sources */,
 				6E64D0652A1491770076C61E /* ViewController+SearchBarDelegate.swift in Sources */,
-				6E9DD99C2AFB421700042FF6 /* FavoriteParkView.swift in Sources */,
+				6E9DD99C2AFB421700042FF6 /* NothingParkView.swift in Sources */,
 				6E64D0AF2A1F77950076C61E /* FavoriteParksHeaderView.swift in Sources */,
 				6E64D0CF2A29EC780076C61E /* UIViewController+.swift in Sources */,
 				6E64D0DB2A2F50490076C61E /* FirstViewController.swift in Sources */,
