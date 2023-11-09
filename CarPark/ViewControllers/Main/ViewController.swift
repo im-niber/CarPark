@@ -31,8 +31,8 @@ final class ViewController: UIViewController {
         return vc
     }()
     
-    private(set) lazy var favoriteParksViewController: FavoriteParkViewController = {
-        let vc = FavoriteParkViewController()
+    private(set) lazy var favoriteParksViewController: BottomSheetParksViewController = {
+        let vc = BottomSheetParksViewController()
         vc.view.isHidden = true
         vc.view.translatesAutoresizingMaskIntoConstraints = false
         return vc
@@ -79,26 +79,21 @@ final class ViewController: UIViewController {
         return view
     }()
     
-    private lazy var favoriteParksBtn: UIButton = {
-        let view = UIButton(configuration: .plain())
-        view.tintColor = .black
-        view.setTitle("⭐️ 즐겨찾기", for: .normal)
-        
-        view.setTitleColor(.darkText ,for: .normal)
-        view.titleLabel?.font = .systemFont(ofSize: 14, weight: .light)
-        view.backgroundColor = .white
-        
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 3, height: 3)
-        view.layer.shadowRadius = 3
-        view.layer.shadowOpacity = 0.2
+    private lazy var favoriteParksBtn: BottomSheetBtn = {
+        let view = BottomSheetBtn(title: "⭐️ 즐겨찾기")
         
         view.addTarget(self, action: #selector(showFavoriteVC), for: .touchUpInside)
-        
-        view.layer.cornerRadius = 12
-        view.setTitleShadowColor(.black, for: .selected)
         view.translatesAutoresizingMaskIntoConstraints = false
         
+        return view
+    }()
+    
+    private lazy var filterBtn: BottomSheetBtn = {
+        let view = BottomSheetBtn(title: "🅿️ 맞춤 검색")
+
+        view.addTarget(self, action: #selector(showFilterVC), for: .touchUpInside)
+        view.translatesAutoresizingMaskIntoConstraints = false
+
         return view
     }()
     
@@ -149,6 +144,7 @@ final class ViewController: UIViewController {
         self.NM.addSubview(containerSearchBarView)
         self.NM.addSubview(zoomButton)
         self.NM.addSubview(favoriteParksBtn)
+        self.NM.addSubview(filterBtn)
         self.NM.addSubview(searchResultViewController.view)
         self.NM.addSubview(favoriteParksViewController.view)
         self.NM.addSubview(drivingView)
@@ -180,7 +176,7 @@ final class ViewController: UIViewController {
             self.favoriteParksViewController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.favoriteParksViewController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-        
+      
         NSLayoutConstraint.activate([
             self.zoomButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -8),
             self.zoomButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -88)
@@ -190,6 +186,13 @@ final class ViewController: UIViewController {
             self.favoriteParksBtn.topAnchor.constraint(equalTo: self.containerSearchBarView.bottomAnchor, constant: 8),
             self.favoriteParksBtn.leadingAnchor.constraint(equalTo: self.containerSearchBarView.leadingAnchor, constant: 4),
         ])
+        
+        
+        NSLayoutConstraint.activate([
+            self.filterBtn.leadingAnchor.constraint(equalTo: favoriteParksBtn.trailingAnchor, constant: 12),
+            self.filterBtn.topAnchor.constraint(equalTo: self.favoriteParksBtn.topAnchor)
+        ])
+        
         
         NSLayoutConstraint.activate([
             drivingView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -203,10 +206,15 @@ final class ViewController: UIViewController {
 
 extension ViewController {
     @objc func showFavoriteVC() {
-        self.favoriteParksViewController.parks = UserDefault.shared.favoriteParks?.data ?? []
-        favoriteParksViewController.tableView.reloadData()
+        self.favoriteParksViewController.showFavoritePark()
+        self.favoriteParksViewController.reloadParkData()
         self.favoriteParksViewController.hiddenViewCheck()
-        
+        self.favoriteParksViewController.view.isHidden.toggle()
+    }
+    
+    @objc func showFilterVC() {
+        self.favoriteParksViewController.showFilterView()
+        self.favoriteParksViewController.hiddenViewCheck()
         self.favoriteParksViewController.view.isHidden.toggle()
     }
     

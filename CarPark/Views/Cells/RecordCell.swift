@@ -6,7 +6,7 @@ final class RecordCell: UICollectionViewCell {
         let view = UIStackView()
         view.backgroundColor = .white
         view.axis = .vertical
-        view.spacing = 30
+        view.spacing = 20
         view.layer.cornerRadius = 10
         
         view.layer.shadowColor = UIColor.black.cgColor
@@ -15,7 +15,7 @@ final class RecordCell: UICollectionViewCell {
         view.layer.shadowOpacity = 0.2
         
         view.isLayoutMarginsRelativeArrangement = true
-        view.layoutMargins = .init(top: 5, left: 16, bottom: 5, right: 16)
+        view.layoutMargins = .init(top: 5, left: 16, bottom: 30, right: 16)
         
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -33,7 +33,6 @@ final class RecordCell: UICollectionViewCell {
     private lazy var date: UILabel = {
         let view = UILabel()
         view.numberOfLines = 1
-        view.textColor = .black
         view.font = .systemFont(ofSize: 15, weight: .medium)
         
         return view
@@ -59,7 +58,6 @@ final class RecordCell: UICollectionViewCell {
         super.init(frame: frame)
         backgroundColor = .systemGray6
         configureHierarchy()
-        customSpacing()
         configureConstraints()
     }
     
@@ -73,10 +71,6 @@ final class RecordCell: UICollectionViewCell {
         time.text = ""
         date.text = ""
         charge.text = ""
-    }
-    
-    func customSpacing() {
-        recordStackView.setCustomSpacing(5, after: title)
     }
     
     func configureHierarchy() {
@@ -95,9 +89,7 @@ final class RecordCell: UICollectionViewCell {
     
     func configure(with data: Record) {
         var data = data
-        if data.category == "주차장" {
-            data.title = "🅿️ " + data.title
-        }
+        if data.category == "주차장" { data.title = "🅿️ " + data.title }
         title.text = data.title
         date.text = "이용한 날짜: " + data.date
         time.text = "이용한 시간: " + data.time

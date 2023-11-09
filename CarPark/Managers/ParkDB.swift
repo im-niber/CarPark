@@ -13,6 +13,8 @@ final class ParkDB {
     
     var allMarkers: [ParkMarker] = []
     
+    @Published private(set) var isShowParks: [ParkMarker] = []
+    
     var data: [Item] {
         get {
             guard let data = self._data, !data.isEmpty else {
@@ -243,5 +245,13 @@ final class ParkDB {
         allMarkers.forEach { item in
             item.setTouchEvent(vc: vc)
         }
+    }
+    
+    func resetShowingParks() {
+        self.isShowParks = []
+    }
+    
+    func setShowingParks(parkMarker: [ParkMarker]) {
+        self.isShowParks = parkMarker
     }
 }
