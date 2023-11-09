@@ -152,7 +152,6 @@ extension BottomSheetParksViewController: FilterParkHeaderViewDelegate {
     private func setDistancePark() {
         tableView.reloadData()
         ParkDB.shared.$isShowParks
-            .buffer(size: 10, prefetch: .byRequest, whenFull: .dropNewest)
             .sink { [weak self] newParks in
                 self?.parks = newParks.map { $0.data }
                 self?.tableView.reloadData()
@@ -163,7 +162,6 @@ extension BottomSheetParksViewController: FilterParkHeaderViewDelegate {
     private func setMoneyPark() {
         tableView.reloadData()
         ParkDB.shared.$isShowParks
-            .buffer(size: 10, prefetch: .byRequest, whenFull: .dropNewest)
             .sink { [weak self] newParks in
                 self?.parks = newParks.sorted { lhs, rhs in
                     Int(lhs.data.tenMin) ?? 0 < Int(rhs.data.tenMin) ?? 0
