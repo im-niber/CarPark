@@ -3,6 +3,14 @@ import UIKit
 final class BottomSheetBtn: UIButton {
     private var title: String?
 
+    func updateLayerProperties() {
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 3, height: 3)
+        self.layer.shadowOpacity = 0.2
+        self.layer.shadowRadius = 6
+        self.layer.cornerRadius = 12
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configuration = .plain()
@@ -11,14 +19,9 @@ final class BottomSheetBtn: UIButton {
         self.setTitleColor(.darkText ,for: .normal)
         self.titleLabel?.font = .systemFont(ofSize: 14, weight: .light)
         self.backgroundColor = .white
-        
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 3, height: 3)
-        self.layer.shadowRadius = 3
-        self.layer.shadowOpacity = 0.2
-        
-        self.layer.cornerRadius = 12
         self.setTitleShadowColor(.black, for: .selected)
+        
+        updateLayerProperties()
     }
     
     convenience init(title: String) {
@@ -31,5 +34,3 @@ final class BottomSheetBtn: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-

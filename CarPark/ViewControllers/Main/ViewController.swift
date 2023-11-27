@@ -81,6 +81,7 @@ final class ViewController: UIViewController {
     
     private lazy var favoriteParksBtn: BottomSheetBtn = {
         let view = BottomSheetBtn(title: "⭐️ 즐겨찾기")
+        view.layer.shadowPath = UIBezierPath(rect: CGRect(origin: .zero, size: view.intrinsicContentSize)).cgPath
         
         view.addTarget(self, action: #selector(showFavoriteVC), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -90,7 +91,8 @@ final class ViewController: UIViewController {
     
     private lazy var filterBtn: BottomSheetBtn = {
         let view = BottomSheetBtn(title: "🅿️ 맞춤 검색")
-
+        view.layer.shadowPath = UIBezierPath(rect: CGRect(origin: .zero, size: view.intrinsicContentSize)).cgPath
+        
         view.addTarget(self, action: #selector(showFilterVC), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
 

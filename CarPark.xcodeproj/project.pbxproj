@@ -38,6 +38,10 @@
 		6E64D0CF2A29EC780076C61E /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0CE2A29EC780076C61E /* UIViewController+.swift */; };
 		6E64D0D92A2CB0D60076C61E /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0D82A2CB0D60076C61E /* String+.swift */; };
 		6E64D0DB2A2F50490076C61E /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E64D0DA2A2F50490076C61E /* FirstViewController.swift */; };
+		6E6636512B1050980024FBF2 /* SubmitParkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6636502B1050980024FBF2 /* SubmitParkViewController.swift */; };
+		6E6636532B1093BE0024FBF2 /* SubmitParkViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6636522B1093BE0024FBF2 /* SubmitParkViewController2.swift */; };
+		6E6636552B109E190024FBF2 /* SubmitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6636542B109E190024FBF2 /* SubmitViewModel.swift */; };
+		6E6636572B10AB880024FBF2 /* SubimtParkViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6636562B10AB880024FBF2 /* SubimtParkViewController3.swift */; };
 		6E66C4CB2A03955B007C4482 /* CarParkInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E66C4CA2A03955B007C4482 /* CarParkInfoViewController.swift */; };
 		6E66C4CD2A03DE31007C4482 /* CarParkInfoView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E66C4CC2A03DE31007C4482 /* CarParkInfoView.storyboard */; };
 		6E7567F72A94B1F500CD0E35 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7567F62A94B1F500CD0E35 /* HTTPMethod.swift */; };
@@ -100,6 +104,10 @@
 		6E64D0CE2A29EC780076C61E /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		6E64D0D82A2CB0D60076C61E /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		6E64D0DA2A2F50490076C61E /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		6E6636502B1050980024FBF2 /* SubmitParkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitParkViewController.swift; sourceTree = "<group>"; };
+		6E6636522B1093BE0024FBF2 /* SubmitParkViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitParkViewController2.swift; sourceTree = "<group>"; };
+		6E6636542B109E190024FBF2 /* SubmitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitViewModel.swift; sourceTree = "<group>"; };
+		6E6636562B10AB880024FBF2 /* SubimtParkViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubimtParkViewController3.swift; sourceTree = "<group>"; };
 		6E66C4CA2A03955B007C4482 /* CarParkInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarParkInfoViewController.swift; sourceTree = "<group>"; };
 		6E66C4CC2A03DE31007C4482 /* CarParkInfoView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CarParkInfoView.storyboard; sourceTree = "<group>"; };
 		6E7567F62A94B1F500CD0E35 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
@@ -186,6 +194,7 @@
 				6E64D0CC2A28BA9F0076C61E /* JoinViewController.swift */,
 				6E9420042AD6B79C00AF725A /* UsageRecordViewController.swift */,
 				6EEA120D2AD6BD1800C57E9A /* MyMenuViewController.swift */,
+				6E6636582B10ABF80024FBF2 /* SubmitParkVCs */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -228,6 +237,16 @@
 				6E64D0B82A20AF0D0076C61E /* NetworkManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		6E6636582B10ABF80024FBF2 /* SubmitParkVCs */ = {
+			isa = PBXGroup;
+			children = (
+				6E6636502B1050980024FBF2 /* SubmitParkViewController.swift */,
+				6E6636522B1093BE0024FBF2 /* SubmitParkViewController2.swift */,
+				6E6636562B10AB880024FBF2 /* SubimtParkViewController3.swift */,
+			);
+			path = SubmitParkVCs;
 			sourceTree = "<group>";
 		};
 		6EA7BE3329BB24A30046BDCC = {
@@ -290,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				6EDE88792A7E5ECF00E18808 /* JoinViewModel.swift */,
+				6E6636542B109E190024FBF2 /* SubmitViewModel.swift */,
 				6E569EA62A7A50C800E3E557 /* CarParkInfoViewModel.swift */,
 			);
 			path = ViewModels;
@@ -432,6 +452,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E6636572B10AB880024FBF2 /* SubimtParkViewController3.swift in Sources */,
+				6E6636512B1050980024FBF2 /* SubmitParkViewController.swift in Sources */,
 				6E64D0B92A20AF0D0076C61E /* NetworkManager.swift in Sources */,
 				6E64D0BD2A2494630076C61E /* Secret.swift in Sources */,
 				6EEA12162AD6E04600C57E9A /* Record.swift in Sources */,
@@ -439,6 +461,7 @@
 				6E64D0732A175F7A0076C61E /* CLLocationCoordinate2D+.swift in Sources */,
 				6E9DD99E2AFB479C00042FF6 /* FilterParkHeaderView.swift in Sources */,
 				6E64D0AD2A1E48600076C61E /* BottomSheetParksViewController.swift in Sources */,
+				6E6636532B1093BE0024FBF2 /* SubmitParkViewController2.swift in Sources */,
 				6EEA120E2AD6BD1800C57E9A /* MyMenuViewController.swift in Sources */,
 				6E64D06F2A166DE30076C61E /* Constant.swift in Sources */,
 				6E9DD99A2AFB3BE900042FF6 /* BottomSheetBtn.swift in Sources */,
@@ -478,6 +501,7 @@
 				6E64D06B2A149CE40076C61E /* NSObject+.swift in Sources */,
 				6E64D0692A149B8B0076C61E /* SearchResultHeaderView.swift in Sources */,
 				6E64D0C92A2625990076C61E /* DrivingView.swift in Sources */,
+				6E6636552B109E190024FBF2 /* SubmitViewModel.swift in Sources */,
 				6E64D0C12A2495FC0076C61E /* APIConstants.swift in Sources */,
 				6EA7BE4229BB24A30046BDCC /* SceneDelegate.swift in Sources */,
 				6EDE887A2A7E5ECF00E18808 /* JoinViewModel.swift in Sources */,

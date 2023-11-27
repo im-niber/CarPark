@@ -1,6 +1,6 @@
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: String, Error {
     case requestErr
     case pathErr
     case serverErr
