@@ -13,8 +13,8 @@ extension ViewController: NMFMapViewCameraDelegate {
             }
             return
         }
-        let markers = ParkDB.shared.markers
-        var partenerMarkers: [ParkMarker] = []
+//        let markers = ParkDB.shared.markers
+//        var partenerMarkers: [ParkMarker] = []
         
         let projection = mapView.projection
         
@@ -23,7 +23,6 @@ extension ViewController: NMFMapViewCameraDelegate {
         
         ParkDB.shared.resetShowingParks()
         
-        // allmarkers로 나중에 수정
         allMarkers.forEach { item in
             item.vc = self
             item.mapView = self.NM.mapView
