@@ -9,13 +9,12 @@ extension ViewController: DrivingDelegate {
         let startLng = String(locationManager.location?.coordinate.longitude ?? -1)
         let startLat = String(locationManager.location?.coordinate.latitude ?? -1)
         
-        let configuraiton = URLSessionConfiguration.default
-        configuraiton.httpAdditionalHeaders = [
+        let headers = [
             "X-NCP-APIGW-API-KEY-ID" : Secret.clientID,
             "X-NCP-APIGW-API-KEY" : Secret.clientSecret
         ]
-      
-        NetworkManager.shared.request(with: APIConstants.wayURL(start: "\(startLng),\(startLat)", goal: "\(goalLng),\(goalLat)").wayURL, method: .get, type: Root.self) { [weak self] result in
+        
+        NetworkManager.shared.request(with: APIConstants.wayURL(start: "\(startLng),\(startLat)", goal: "\(goalLng),\(goalLat)").wayURL, method: .get, type: Root.self, header: headers) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let data = data.route.first?.value.first else { return }
