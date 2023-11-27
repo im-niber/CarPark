@@ -149,8 +149,8 @@ final class ViewController: UIViewController {
         self.NM.addSubview(filterBtn)
         self.NM.addSubview(searchResultViewController.view)
         self.NM.addSubview(favoriteParksViewController.view)
-        self.NM.addSubview(drivingView)
         self.NM.addSubview(myMenuBtn)
+        self.NM.addSubview(drivingView)
         
         bottomSheetViewTopConstraint = self.favoriteParksViewController.view.topAnchor.constraint(equalTo: self.view.centerYAnchor)
         

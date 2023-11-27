@@ -6,10 +6,10 @@ final class NetworkManager {
     private init() { }
     
     func request<T: Codable>(
-        with url: String, method: HTTPMethod, type: T.Type = HTTPStatusCode.self, parameter: [String: Any]? = nil, completion: @escaping (Result<T, NetworkError>) -> Void) {
+        with url: String, method: HTTPMethod, type: T.Type = HTTPStatusCode.self, header: [String : String]? = nil, parameter: [String: Any]? = nil, completion: @escaping (Result<T, NetworkError>) -> Void) {
             switch method {
             case .get:
-                fetch(with: url, type: T.self) { result in
+                fetch(with: url, type: T.self, header: header) { result in
                     switch result {
                     case .success(let data):
                         completion(.success(data))
@@ -32,10 +32,16 @@ final class NetworkManager {
         }
     
     /// 서버에서 데이터를 들고오는 함수, 데이터 타입을 파라미터에 넘겨야 합니다
-    func fetch<T: Codable>(session: URLSession = URLSession(configuration: .default), with url: String, type: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void) {
-        let url = URL(string: url)!
+    func fetch<T: Codable>(session: URLSession = URLSession(configuration: .default), with url: String, type: T.Type, header: [String : String]? = nil, completion: @escaping (Result<T, NetworkError>) -> Void) {
         
-        let task = session.dataTask(with: url) { data, response, error in
+        let url = URL(string: url)!
+        var request = URLRequest(url: url)
+        
+        header?.forEach { (key, value) in
+            request.addValue(value, forHTTPHeaderField: key)
+        }
+        
+        let task = session.dataTask(with: request) { data, response, error in
             guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
                 print("\(String(describing: response))")
                 return
