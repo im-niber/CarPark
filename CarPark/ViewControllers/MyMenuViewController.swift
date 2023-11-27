@@ -29,11 +29,21 @@ final class MyMenuViewController: BaseViewController {
         return view
     }()
     
+    private lazy var submitParkBtn: MenuButton = {
+        let view = MenuButton()
+        view.setTitle("주차장 등록", for: .normal)
+        view.addTarget(self, action: #selector(submitMyPark), for: .touchUpInside)
+        
+        return view
+    }()
+    
     override func configureConstraints() {
         self.view.addSubview(menuStackView)
         menuStackView.addArrangedSubview(usageRecordTitle)
         menuStackView.addArrangedSubview(DividerView())
         menuStackView.addArrangedSubview(myInfoBtn)
+        menuStackView.addArrangedSubview(DividerView())
+        menuStackView.addArrangedSubview(submitParkBtn)
         
         NSLayoutConstraint.activate([
             menuStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 28),
@@ -66,5 +76,11 @@ extension MyMenuViewController {
     
     @objc func editMyInfo() {
         print("edit")
+    }
+    
+    @objc func submitMyPark() {
+        // 내 주차장 등록 화면 push
+        let submitParkVC = SubmitParkViewController()
+        navigationController?.pushViewController(submitParkVC, animated: true)
     }
 }
