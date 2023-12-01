@@ -5,9 +5,9 @@ final class UserDefault {
     private init() {}
     
     struct Parks: Codable {
-        var data: [Item]?
+        var data: [Park]?
         
-        init(data: [Item]? = nil) {
+        init(data: [Park]? = nil) {
             self.data = data
         }
     }
@@ -30,7 +30,7 @@ final class UserDefault {
         return nil
     }
     
-    func setRecentParks(item: Item) {
+    func setRecentParks(item: Park) {
         if let recentParks, var recentData = recentParks.data {
             if recentData.contains(item) { return }
             recentData.insert(item, at: 0)
@@ -53,7 +53,7 @@ final class UserDefault {
         UserDefaults.standard.removeObject(forKey: "RecentParks")
     }
     
-    func setFavoriteParks(item: Item) {
+    func setFavoriteParks(item: Park) {
         if let favoriteParks, var favoriteData = favoriteParks.data {
             if favoriteData.contains(item) {
                 favoriteData.remove(at: favoriteData.firstIndex(of: item)!)
@@ -71,7 +71,7 @@ final class UserDefault {
         
     }
     
-    func checkFavorite(with item: Item) -> Bool {
+    func checkFavorite(with item: Park) -> Bool {
         guard let favoriteParks, let favoriteData = favoriteParks.data else { return false }
         return favoriteData.contains(item)
     }

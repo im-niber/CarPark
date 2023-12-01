@@ -44,13 +44,13 @@ final class ParkTitleCell: UITableViewCell {
         self.titleLabel.text = text
     }
     
-    func setTapAction(_ vc: ViewController, _ item: Item) {
+    func setTapAction(_ vc: ViewController, _ item: Park) {
         didTap = { [weak vc] in
             guard let vc else { return }
             if let lng = Double(item.xCdnt), let lat = Double(item.yCdnt) {
                 vc.NM.mapView.moveCamera(NMFCameraUpdate(position: NMFCameraPosition(NMGLatLng(lat: lat, lng: lng), zoom: 15)))
                 
-                guard let marker = ParkDB.shared.allMarkers.filter({ $0.data.pkNam == item.pkNam }).first else { return }
+                guard let marker = ParkDB.shared.allMarkers.filter({ $0.park.pkNam == item.pkNam }).first else { return }
                 
                 let sheetVC: CarParkInfoViewController = UIStoryboard(name: "CarParkInfoView", bundle: nil).instantiateViewController(identifier: "CarParkInfoView") { coder in
                     let vc = CarParkInfoViewController(viewModel: CarParkInfoViewModel(marker: marker), coder: coder)

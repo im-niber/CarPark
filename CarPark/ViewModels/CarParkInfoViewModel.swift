@@ -30,22 +30,22 @@ final class CarParkInfoViewModel: NSObject, ObservableObject {
     }
     
     func checkFavorite() -> Bool {
-        UserDefault.shared.checkFavorite(with: self.marker.data)
+        UserDefault.shared.checkFavorite(with: self.marker.park)
     }
     
     func tappedFavoriteAction() {
-        UserDefault.shared.setFavoriteParks(item: self.marker.data)
+        UserDefault.shared.setFavoriteParks(item: self.marker.park)
     }
     
     func getDriving() {
-        delegate?.getDriving(goalLng: marker.data.xCdnt, goalLat: marker.data.yCdnt, goalLocation: marker.data.pkNam, marker: marker)
+        delegate?.getDriving(goalLng: marker.park.xCdnt, goalLat: marker.park.yCdnt, goalLocation: marker.park.pkNam, marker: marker)
     }
     
     func postReview(with review: String) {
         let parameter: [String: Any] = [
             "user_Name" : UserDefault.shared.getNickname(),
             "review" : review,
-            "park_Name" : self.marker.data.pkNam
+            "park_Name" : self.marker.park.pkNam
         ]
 
         NetworkManager.shared.request(with: APIConstants.saveReviewURL, method: .post, parameter: parameter) { result in
@@ -60,7 +60,7 @@ final class CarParkInfoViewModel: NSObject, ObservableObject {
     
     // MARK: 서버에서 리뷰를 가져오는 함수
     private func fetchReview() {
-        let urlParkName = marker.data.pkNam.components(separatedBy: " ").joined()
+        let urlParkName = marker.park.pkNam.components(separatedBy: " ").joined()
         let encodeURL = (APIConstants.fetchReviewURL + urlParkName).encodeUrl()!
         
         NetworkManager.shared.request(with: encodeURL, method: .get, type: ParkReviewStatus.self) { result in

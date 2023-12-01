@@ -4,18 +4,18 @@ import CoreLocation
 
 final class ParkDB {
     static let shared = ParkDB()
-    private var _data: [Item]?
+    private var _data: [Park]?
     
     var markers: [ParkMarker] = []
     
-    var partnerParks: [Item] = []
+    var partnerParks: [Park] = []
     var partnerMarkers: [ParkMarker] = []
     
     var allMarkers: [ParkMarker] = []
     
     @Published private(set) var isShowParks: [ParkMarker] = []
     
-    var data: [Item] {
+    var data: [Park] {
         get {
             guard let data = self._data, !data.isEmpty else {
                 self._data = readData()
@@ -87,7 +87,7 @@ final class ParkDB {
         sqlite3_finalize(statement)
     }
     
-    func insertData(item: Item) {
+    func insertData(item: Park) {
         
         let insertQuery = "insert into ParkTable (id, guNm, pkNam, mgntNum, doroAddr, jibunAddr, tponNum, pkFm, pkCnt, svcSrtTe, svcEndTe, satSrtTe, satEndTe, hldSrtTe, hldEndTe, ldRtg, tenMin, ftDay, ftMon, xCdnt, yCdnt, fnlDt, pkGubun, bujeGubun, oprDay, feeInfo, pkBascTime, pkAddTime, feeAdd, ftDayApplytime, payMtd, spclNote, currava, oprtFm) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
         var statement: OpaquePointer? = nil
@@ -136,11 +136,11 @@ final class ParkDB {
         }
     }
     
-    func readData() -> [Item] {
+    func readData() -> [Park] {
         let query: String = "select * from ParkTable;"
         var statement: OpaquePointer? = nil
 
-        var result: [Item] = []
+        var result: [Park] = []
 
         if sqlite3_prepare(self.db, query, -1, &statement, nil) != SQLITE_OK {
             let errorMessage = String(cString: sqlite3_errmsg(db)!)
@@ -184,7 +184,7 @@ final class ParkDB {
             let currava = String(cString: sqlite3_column_text(statement, 32))
             let oprtFm = String(cString: sqlite3_column_text(statement, 33))
             
-            result.append(Item(guNm: String(gnNm), pkNam: String(pkNam), mgntNum: String(mgntNum), doroAddr: doroAddr, jibunAddr: jibunAddr, tponNum: tponNum, pkFm: pkFm, pkCnt: pkCnt, svcSrtTe: svcSrtTe, svcEndTe: svcEndTe, satSrtTe: satSrtTe, satEndTe: satEndTe, hldSrtTe: hldSrtTe, hldEndTe: hldEndTe, ldRtg: ldRtg, tenMin: tenMin, ftDay: ftDay, ftMon: ftMon, xCdnt: xCdnt, yCdnt: yCdnt, fnlDt: fnlDt, pkGubun: pkGubun, bujeGubun: bujeGubun, oprDay: oprDay, feeInfo: feeInfo, pkBascTime: pkBascTime, pkAddTime: pkAddTime, feeAdd: feeAdd, ftDayApplytime: ftDayApplytime, payMtd: payMtd, spclNote: spclNote, currava: currava, oprtFm: oprtFm))
+            result.append(Park(guNm: String(gnNm), pkNam: String(pkNam), mgntNum: String(mgntNum), doroAddr: doroAddr, jibunAddr: jibunAddr, tponNum: tponNum, pkFm: pkFm, pkCnt: pkCnt, svcSrtTe: svcSrtTe, svcEndTe: svcEndTe, satSrtTe: satSrtTe, satEndTe: satEndTe, hldSrtTe: hldSrtTe, hldEndTe: hldEndTe, ldRtg: ldRtg, tenMin: tenMin, ftDay: ftDay, ftMon: ftMon, xCdnt: xCdnt, yCdnt: yCdnt, fnlDt: fnlDt, pkGubun: pkGubun, bujeGubun: bujeGubun, oprDay: oprDay, feeInfo: feeInfo, pkBascTime: pkBascTime, pkAddTime: pkAddTime, feeAdd: feeAdd, ftDayApplytime: ftDayApplytime, payMtd: payMtd, spclNote: spclNote, currava: currava, oprtFm: oprtFm))
         }
         sqlite3_finalize(statement)
         return result
@@ -207,8 +207,8 @@ final class ParkDB {
        
    }
     
-    func setRecommendParks(lat: Double, lng: Double) -> [Item] {
-        var parks: [Item]
+    func setRecommendParks(lat: Double, lng: Double) -> [Park] {
+        var parks: [Park]
         let current = CLLocationCoordinate2D(latitude: lat, longitude: lng)
         
         parks = data.sorted(by: { first, second in
@@ -219,8 +219,8 @@ final class ParkDB {
     }
     
     /// 관리 기관(guNm)이 같은 주차장들의 랜덤 주차장과, 개수를 반환하는 함수
-    func clusterItems() -> [(Item, Int)] {
-        var clusterItems: [(Item, Int)] = []
+    func clusterItems() -> [(Park, Int)] {
+        var clusterItems: [(Park, Int)] = []
         var isCheckedGuNm: Set<String> = []
         
         for item in data.reversed() {
@@ -241,9 +241,11 @@ final class ParkDB {
     }
     
     func setMarker(vc: ViewController) {
-        allMarkers = markers + partnerMarkers
-        allMarkers.forEach { item in
-            item.setTouchEvent(vc: vc)
+        self.allMarkers = self.markers + self.partnerMarkers
+        self.allMarkers.forEach { item in
+            item.vc = vc
+            item.mapView = vc.NM.mapView
+            item.setTouchEvent(vc: vc, data: item.park)
         }
     }
     

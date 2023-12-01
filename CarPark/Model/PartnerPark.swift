@@ -28,8 +28,8 @@ struct PartnerPark: Codable, Equatable {
         case parkPhone = "park_phone"
     }
     
-    func toParkItem() -> Item {
-        return Item(id: nil, emptySpace: String(parkEmpty), handicapSpace: String(handicapSpace), guNm: "", pkNam: parkName, mgntNum: "", doroAddr: parkAddress, jibunAddr: "", tponNum: parkPhone, pkFm: "", pkCnt: String(parkSpace), svcSrtTe: parkOperatingTime, svcEndTe: "", satSrtTe: "", satEndTe: "", hldSrtTe: "", hldEndTe: "", ldRtg: "", tenMin: parkBaseRate, ftDay: parkPerDayRate ?? "", ftMon: parkMonthlyRate ?? "", xCdnt: String(parkX), yCdnt: String(parkY), fnlDt: "", pkGubun: parkType, bujeGubun: "", oprDay: "", feeInfo: "", pkBascTime: "", pkAddTime: "", feeAdd: "", ftDayApplytime: "", payMtd: "", spclNote: "", currava: "", oprtFm: "")
+    func toParkItem() -> Park {
+        return Park(id: nil, emptySpace: String(parkEmpty), handicapSpace: String(handicapSpace), guNm: "", pkNam: parkName, mgntNum: "", doroAddr: parkAddress, jibunAddr: "", tponNum: parkPhone, pkFm: "", pkCnt: String(parkSpace), svcSrtTe: parkOperatingTime, svcEndTe: "", satSrtTe: "", satEndTe: "", hldSrtTe: "", hldEndTe: "", ldRtg: "", tenMin: parkBaseRate, ftDay: parkPerDayRate ?? "", ftMon: parkMonthlyRate ?? "", xCdnt: String(parkX), yCdnt: String(parkY), fnlDt: "", pkGubun: parkType, bujeGubun: "", oprDay: "", feeInfo: "", pkBascTime: "", pkAddTime: "", feeAdd: "", ftDayApplytime: "", payMtd: "", spclNote: "", currava: "", oprtFm: "")
     }
 }
 

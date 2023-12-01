@@ -1,8 +1,7 @@
-//   let parkAPI = try? JSONDecoder().decode(ParkAPI.self, from: jsonData)
 import Foundation
 
 // MARK: - ParkAPI
-struct Park: Codable {
+struct ParkModel: Codable {
     let getPblcPrkngInfo: GetPblcPrkngInfo
 }
 
@@ -14,17 +13,17 @@ struct GetPblcPrkngInfo: Codable {
 
 // MARK: - Body
 struct Body: Codable {
-    let items: Items
+    let items: Parks
     let numOfRows, pageNo, totalCount: Int
 }
 
 // MARK: - Items
-struct Items: Codable {
-    let item: [Item]
+struct Parks: Codable {
+    let parks: [Park]
 }
 
 // MARK: - Item
-struct Item: Codable, Equatable {
+struct Park: Codable, Equatable {
     var id: Int?
     var emptySpace: String?
     var handicapSpace: String?
@@ -47,6 +46,24 @@ struct Item: Codable, Equatable {
     static func ==(lhs: Self, rhs: Self) -> Bool {
         guard lhs.xCdnt == rhs.xCdnt && lhs.yCdnt == rhs.yCdnt else { return false }
         return true
+    }
+    
+    static func empty() -> Self {
+        Park(guNm: "", pkNam: "", mgntNum: "", doroAddr: "", jibunAddr: "", tponNum: "", pkFm: "", pkCnt: "", svcSrtTe: "", svcEndTe: "", satSrtTe: "", satEndTe: "", hldSrtTe: "", hldEndTe: "", ldRtg: "", tenMin: "", ftDay: "", ftMon: "", xCdnt: "", yCdnt: "", fnlDt: "", pkGubun: "", bujeGubun: "", oprDay: "", feeInfo: "", pkBascTime: "", pkAddTime: "", feeAdd: "", ftDayApplytime: "", payMtd: "", spclNote: "", currava: "", oprtFm: "")
+    }
+}
+
+// MARK: - 유저가 등록한 주차장 데이터 모델
+struct UserPark: Codable, Equatable {
+    let userNickname: String
+    let description: String
+    let lat: Double
+    let lng: Double
+    let startTime: String
+    let endTime: String
+    
+    static func empty() -> Self {
+        UserPark(userNickname: "", description: "", lat: 0.0, lng: 0.0, startTime: "", endTime: "")
     }
 }
 

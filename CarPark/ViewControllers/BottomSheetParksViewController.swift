@@ -2,7 +2,7 @@ import UIKit
 
 final class BottomSheetParksViewController: BaseViewController {
 
-    private var parks: [Item] = []
+    private var parks: [Park] = []
     private var isShowFavorite = true
     private var filterState: FilterParkHeaderView.State = .distance
     
@@ -153,7 +153,7 @@ extension BottomSheetParksViewController: FilterParkHeaderViewDelegate {
         tableView.reloadData()
         ParkDB.shared.$isShowParks
             .sink { [weak self] newParks in
-                self?.parks = newParks.map { $0.data }
+                self?.parks = newParks.map { $0.park }
                 self?.tableView.reloadData()
             }
             .store(in: &cancellable)
@@ -164,8 +164,8 @@ extension BottomSheetParksViewController: FilterParkHeaderViewDelegate {
         ParkDB.shared.$isShowParks
             .sink { [weak self] newParks in
                 self?.parks = newParks.sorted { lhs, rhs in
-                    Int(lhs.data.tenMin) ?? 0 < Int(rhs.data.tenMin) ?? 0
-                }.map { $0.data }
+                    Int(lhs.park.tenMin) ?? 0 < Int(rhs.park.tenMin) ?? 0
+                }.map { $0.park }
                 self?.tableView.reloadData()
             }
             .store(in: &cancellable)
