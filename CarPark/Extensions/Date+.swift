@@ -13,6 +13,7 @@ extension Date {
         case yearAndMonth = "YYYY년 M월"
         case yearAndMonthandDate2 = "YYYY.MM.dd."
         case yearAndMonthandDate3 = "YYYYMMdd"
+        case monthAndDayAndHourAndMinute = "MM월 dd일 HH:mm"
     }
     
     // MARK: Methods

@@ -74,14 +74,14 @@ final class ParkMarker: NMFMarker {
         }
     }
     
-    func setTouchEvent(vc: ViewController, data: UserPark) {
+    func setTouchEvent(vc: ViewController, data: UserPark, images: [UIImage]) {
         self.touchHandler = { (overlay: NMFOverlay) -> Bool in
             if self.drivingMarker { return false }
             
-            let sheetVC: UserCarParkInfoViewController = UserCarParkInfoViewController()
+            let sheetVC: UserCarParkInfoViewController = UserCarParkInfoViewController(userParkData: data, images: images)
             
             if let presentationSheetVC = sheetVC.presentationController as? UISheetPresentationController {
-                presentationSheetVC.detents = [.medium(), .large()]
+                presentationSheetVC.detents = [.medium(), .medium()]
                 presentationSheetVC.prefersGrabberVisible = true
                 self.vc?.present(sheetVC, animated: true)
             }

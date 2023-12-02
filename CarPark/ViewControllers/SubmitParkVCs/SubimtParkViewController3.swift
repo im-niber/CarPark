@@ -164,12 +164,12 @@ final class SubimtParkViewController3: BaseViewController {
     
     @objc func submitPark() {
         let nickName = UserDefault.shared.getNickname()
-        let userPark = UserPark(userNickname: nickName, description: descriptionTextView.text ?? "", lat: self.lat, lng: self.lng, startTime: datePicker.date.toString(type: .monthAndDate), endTime: datePicker2.date.toString(type: .monthAndDate))
+        let userPark = UserPark(userNickname: nickName, description: descriptionTextView.text ?? "", lat: self.lat, lng: self.lng, startTime: datePicker.date.toString(type: .monthAndDayAndHourAndMinute), endTime: datePicker2.date.toString(type: .monthAndDayAndHourAndMinute))
         
         _ = navigationController?.viewControllers.first(where: { vc in
             guard let vc = vc as? ViewController else { return false }
             let newMarker = ParkMarker(userPark: userPark, vc)
-            newMarker.setTouchEvent(vc: vc, data: userPark)
+            newMarker.setTouchEvent(vc: vc, data: userPark, images: self.images)
             vc.appendParkMarker(marker: newMarker)
             self.navigationController?.popToViewController(vc, animated: true)
             
