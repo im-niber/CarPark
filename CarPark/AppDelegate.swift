@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 data.forEach { park in
                     let item = park.toParkItem()
                     ParkDB.shared.partnerParks.append(item)
-                    ParkDB.shared.partnerMarkers.append(ParkMarker(data: item))
+                    ParkDB.shared.partnerMarkers.append(ParkMarker(park: item))
                 }
                 
                 DispatchQueue.main.async {
@@ -42,19 +42,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func fetchParks() {
         if ParkDB.shared.data.count > 0 {
             ParkDB.shared.data.forEach { item in
-                ParkDB.shared.markers.append(ParkMarker(data: item))
+                ParkDB.shared.markers.append(ParkMarker(park: item))
             }
             return
         }
         
-        NetworkManager.shared.request(with: APIConstants.pubilcParkURL, method: .get, type: Park.self) { result in
+        NetworkManager.shared.request(with: APIConstants.pubilcParkURL, method: .get, type: ParkModel.self) { result in
             switch result {
             case .success(let data):
-                let parkData = data.getPblcPrkngInfo.body.items.item
+                let parkData = data.getPblcPrkngInfo.body.items.parks
                 ParkDB.shared.createTable()
     
                 parkData.forEach { item in
-                    ParkDB.shared.markers.append(ParkMarker(data: item))
+                    ParkDB.shared.markers.append(ParkMarker(park: item))
                     ParkDB.shared.insertData(item: item)
                 }
                 DispatchQueue.main.async {

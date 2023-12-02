@@ -42,6 +42,7 @@ final class LoginViewController: UIViewController {
     private func checkLogin() {
 // 로그인 skip
 //        if UserDefault.shared.checkLoggedIn() {
+            UserDefault.shared.setLogin(id: "test", nickname: "테스트유저")
             self.navigationController?.popToRootViewController(animated: true)
             self.navigationController?.pushViewController(ViewController(), animated: false)
 //        }

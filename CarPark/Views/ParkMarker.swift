@@ -6,24 +6,30 @@ final class ParkMarker: NMFMarker {
     
     var didTap: (() -> Bool)?
 
-    let data: Item
+    let park: Park
+    let userPark: UserPark
+    
     var vc: ViewController?
     var drivingMarker: Bool = false
     
-    init(data: Item, _ vc: ViewController? = nil) {
-        self.data = data
-        self.vc = vc
-        super.init()
-        
-        if data.yCdnt == "-" { return }
-        
+    private func configureMarker() {
         self.width = 30
         self.height = 35
         self.iconPerspectiveEnabled = true
         self.iconImage = NMFOverlayImage(name: "marker_normal")
         self.hidden = true
+    }
+    
+    init(park: Park, _ vc: ViewController? = nil) {
+        self.park = park
+        self.vc = vc
+        self.userPark = UserPark.empty()
+        super.init()
         
-        if let emptySpace = Int(data.emptySpace ?? "") {
+        if park.yCdnt == "-" { return }
+        configureMarker()
+        
+        if let emptySpace = Int(park.emptySpace ?? "") {
             self.width = 35
             self.height = 40
             self.hidden = false
@@ -34,10 +40,22 @@ final class ParkMarker: NMFMarker {
             }
         }
         
-        self.position = NMGLatLng(lat: Double(data.yCdnt) ?? -1, lng: Double(data.xCdnt) ?? -1)
+        self.position = NMGLatLng(lat: Double(park.yCdnt) ?? -1, lng: Double(park.xCdnt) ?? -1)
     }
     
-    func setTouchEvent(vc: ViewController) {
+    init(userPark: UserPark, _ vc: ViewController? = nil) {
+        self.userPark = userPark
+        self.vc = vc
+        self.park = Park.empty()
+        
+        super.init()
+        
+        configureMarker()
+        self.iconImage = NMFOverlayImage(name: "marker_available")
+        self.position = NMGLatLng(lat: userPark.lat, lng: userPark.lng)
+    }
+    
+    func setTouchEvent(vc: ViewController, data: Park) {
         self.touchHandler = { (overlay: NMFOverlay) -> Bool in
             if self.drivingMarker { return false }
             
@@ -49,6 +67,22 @@ final class ParkMarker: NMFMarker {
                 presentationSheetVC.detents = [.medium(), .large()]
                 presentationSheetVC.prefersGrabberVisible = true
                 sheetVC.viewModel.delegate = vc
+                self.vc?.present(sheetVC, animated: true)
+            }
+            
+            return true
+        }
+    }
+    
+    func setTouchEvent(vc: ViewController, data: UserPark, images: [UIImage]) {
+        self.touchHandler = { (overlay: NMFOverlay) -> Bool in
+            if self.drivingMarker { return false }
+            
+            let sheetVC: UserCarParkInfoViewController = UserCarParkInfoViewController(userParkData: data, images: images)
+            
+            if let presentationSheetVC = sheetVC.presentationController as? UISheetPresentationController {
+                presentationSheetVC.detents = [.medium(), .medium()]
+                presentationSheetVC.prefersGrabberVisible = true
                 self.vc?.present(sheetVC, animated: true)
             }
             

@@ -163,14 +163,14 @@ final class SubimtParkViewController3: BaseViewController {
     }
     
     @objc func submitPark() {
-        print("submit")
-        // viewmodel? 로 마커 하나 생성하고 사진 정보 정도 보여주는 new marker ?를
-        // 만들어야하지않을까 ?
-        
+        let nickName = UserDefault.shared.getNickname()
+        let userPark = UserPark(userNickname: nickName, description: descriptionTextView.text ?? "", lat: self.lat, lng: self.lng, startTime: datePicker.date.toString(type: .monthAndDayAndHourAndMinute), endTime: datePicker2.date.toString(type: .monthAndDayAndHourAndMinute))
         
         _ = navigationController?.viewControllers.first(where: { vc in
             guard let vc = vc as? ViewController else { return false }
-            
+            let newMarker = ParkMarker(userPark: userPark, vc)
+            newMarker.setTouchEvent(vc: vc, data: userPark, images: self.images)
+            vc.appendParkMarker(marker: newMarker)
             self.navigationController?.popToViewController(vc, animated: true)
             
             return true

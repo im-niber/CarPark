@@ -9,9 +9,9 @@ final class CustomInfoWindowDataSource: NSObject, NMFOverlayImageDataSource {
         
         // MARK: PartnerMarker로 바꾼 다음 빈자리를 넣기
         if let marker = infoWindow.marker as? ParkMarker {
-            guard marker.data.emptySpace != "0" else { return UIView() }
-            rootView.textLabel.text = ": \(marker.data.emptySpace ?? "")"
-            rootView.textLabel2.text = ": \(marker.data.handicapSpace ?? "")"
+            guard marker.park.emptySpace != "0" else { return UIView() }
+            rootView.textLabel.text = ": \(marker.park.emptySpace ?? "")"
+            rootView.textLabel2.text = ": \(marker.park.handicapSpace ?? "")"
         }
         
 //        rootView.textLabel.sizeToFit()

@@ -4,17 +4,13 @@ import NMapsMap
 extension ViewController: NMFMapViewCameraDelegate {
 
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        let allMarkers = ParkDB.shared.allMarkers
-        
         if driving {
-            allMarkers.forEach { item in
+            self.allMarkers.forEach { item in
                 if item.drivingMarker { item.hidden = false }
                 else { item.hidden = true }
             }
             return
         }
-//        let markers = ParkDB.shared.markers
-//        var partenerMarkers: [ParkMarker] = []
         
         let projection = mapView.projection
         
@@ -23,11 +19,8 @@ extension ViewController: NMFMapViewCameraDelegate {
         
         ParkDB.shared.resetShowingParks()
         
-        allMarkers.forEach { item in
-            item.vc = self
-            item.mapView = self.NM.mapView
-            
-            if let emptySpace = item.data.emptySpace, Int(emptySpace)! != 0 {
+        self.allMarkers.forEach { item in
+            if let emptySpace = item.park.emptySpace, Int(emptySpace)! != 0 {
                 let infoWindow = NMFInfoWindow()
                 infoWindow.dataSource = CustomInfoWindowDataSource()
                 infoWindow.open(with: item)
@@ -40,7 +33,7 @@ extension ViewController: NMFMapViewCameraDelegate {
                 if mapView.cameraPosition.zoom <= 11.5 {
                     
                     for clusterPark in clusterParks {
-                        if item.data == clusterPark.0 {
+                        if item.park == clusterPark.0 {
                             
                             let infoWindow = NMFInfoWindow()
                             let dataSource = NMFInfoWindowDefaultTextSource.data()
@@ -59,7 +52,7 @@ extension ViewController: NMFMapViewCameraDelegate {
                 else {
                     item.hidden = false
                     
-                    if item.data.emptySpace == nil {
+                    if item.park.emptySpace == nil {
                         item.infoWindow?.close()
                     }
                 }
@@ -72,7 +65,7 @@ extension ViewController: NMFMapViewCameraDelegate {
         let current = CLLocationCoordinate2D(latitude: self.locationManager.location?.coordinate.latitude ?? -1, longitude: self.locationManager.location?.coordinate.longitude ?? -1)
         
         ParkDB.shared.setShowingParks(parkMarker: allMarkers.filter { $0.hidden == false }.sorted(by: { lhs, rhs in
-            current.distance(from: CLLocationCoordinate2D(latitude: Double(lhs.data.yCdnt) ?? -1, longitude: Double(lhs.data.xCdnt) ?? -1)) < current.distance(from: CLLocationCoordinate2D(latitude: Double(rhs.data.yCdnt) ?? -1, longitude: Double(rhs.data.xCdnt) ?? -1))
+            current.distance(from: CLLocationCoordinate2D(latitude: Double(lhs.park.yCdnt) ?? -1, longitude: Double(lhs.park.xCdnt) ?? -1)) < current.distance(from: CLLocationCoordinate2D(latitude: Double(rhs.park.yCdnt) ?? -1, longitude: Double(rhs.park.xCdnt) ?? -1))
             
         }))
 //

@@ -91,8 +91,6 @@ extension SubmitParkViewController: PHPickerViewControllerDelegate {
                                 let nextSumbitVC = SubmitParkViewController2(chooseImages: self?.chooseImages ?? [])
                                 
                                 self?.navigationController?.pushViewController(nextSumbitVC, animated: true)
-                                
-//                                self?.show(nextSumbitVC, sender: nil)
                             }
                         }
                     }

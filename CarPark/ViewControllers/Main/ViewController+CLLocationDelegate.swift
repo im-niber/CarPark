@@ -16,7 +16,7 @@ extension ViewController: CLLocationManagerDelegate {
         cameraUpdate.animation = .easeIn
         
         if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
-            setParks()
+            setPartnerParks()
             setMarker()
             getClusterParks()
         }

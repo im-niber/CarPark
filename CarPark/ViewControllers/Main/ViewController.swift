@@ -5,9 +5,9 @@ final class ViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     
-    private(set) var parks: [Item] = []
-    private(set) var clusterParks: [(Item, Int)] = []
-    private(set) var partnerParks: [Item] = []
+    private(set) var clusterParks: [(Park, Int)] = []
+    private(set) var partnerParks: [Park] = []
+    private(set) var allMarkers: [ParkMarker] = []
     
     var driving: Bool = false
     
@@ -126,7 +126,7 @@ final class ViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         setLocation(locationManager: locationManager)
-        setParks()
+        setPartnerParks()
         setMarker()
         getClusterParks()
         configureHierarchy()
@@ -230,16 +230,23 @@ extension ViewController {
 
 // MARK: 데이터를 설정하는 함수 extension
 extension ViewController {
-    func setParks() {
-        parks = ParkDB.shared.data
+    func setPartnerParks() {
         partnerParks = ParkDB.shared.partnerParks
     }
     
     func setMarker() {
         ParkDB.shared.setMarker(vc: self)
+        self.allMarkers = ParkDB.shared.allMarkers
     }
     
     func getClusterParks() {
         clusterParks = ParkDB.shared.clusterItems()
+    }
+    
+    func appendParkMarker(marker: ParkMarker) {
+        marker.vc = self
+        marker.mapView = self.NM.mapView
+        marker.hidden = false
+        self.allMarkers.append(marker)
     }
 }

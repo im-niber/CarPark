@@ -68,7 +68,7 @@ final class CarParkInfoViewController: BaseViewController {
         reviewTextField.delegate = self
         setUpTableView()
         bind()
-        setData(with: viewModel.marker.data)
+        setData(with: viewModel.marker.park)
         checkFavorite()
         addKeyboardNotification()
     }
@@ -96,7 +96,7 @@ final class CarParkInfoViewController: BaseViewController {
         ])
     }
     
-    private func setData(with item: Item) {
+    private func setData(with item: Park) {
         self.pkNamLabel.text = item.pkNam
         self.pkGubunLabel.text = item.pkGubun
         self.pkCntLabel.text = item.pkCnt + " 면"

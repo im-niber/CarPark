@@ -3,8 +3,8 @@ import NMapsMap
 
 final class SearchResultViewController: UIViewController {
     
-    var parks: [Item]
-    var recommendParks: [Item]
+    var parks: [Park]
+    var recommendParks: [Park]
     
     let NM: NMFNaverMapView
     
@@ -18,7 +18,7 @@ final class SearchResultViewController: UIViewController {
         return view
     }()
     
-    init(parks: [Item], recommendParks: [Item], NM: NMFNaverMapView) {
+    init(parks: [Park], recommendParks: [Park], NM: NMFNaverMapView) {
         self.parks = parks
         self.recommendParks = recommendParks
         self.NM = NM
